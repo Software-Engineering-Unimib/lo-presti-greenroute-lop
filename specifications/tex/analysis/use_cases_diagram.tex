@@ -1,7 +1,43 @@
 \begin{figure}[h]
-\centering
-\begin{tikzpicture}
-\umlusecase[x=0, y=0]{Case1}
-\end{tikzpicture}
-\caption{A UML diagram}
+	\centering
+	
+	\begin{tikzpicture}
+		\begin{umlsystem}[x=0, y=0, fill=brown!10]{GreenRoute}
+			\umlusecase[x=0, y=0, fill=red!20]{Authentication}
+
+			\umlusecase[x=0, y=-2, fill=brown!20]{View possible routes}
+			\umlusecase[x=4, y=-4, fill=brown!20]{Set route parameters}
+			\umlusecase[x=0, y=-5, fill=brown!20]{View the route history}
+
+			\umlusecase[x=0, y=-7, fill=yellow!20]{Manage friends}
+			\umlusecase[x=4, y=-9, fill=yellow!20]{Challenge a friend}
+			\umlusecase[x=2, y=-10, fill=yellow!20]{Manage blocked users}
+			\umlusecase[x=0, y=-11, fill=yellow!20]{View the game status}
+
+			\umlusecase[x=0, y=-13, fill=orange!20]{Manage the system}
+			\umlusecase[x=0, y=-15, fill=orange!20]{Manage administrators}
+		\end{umlsystem}
+
+		\umlactor[x = -7, y = 0]{Person}
+		\umlactor[x = -7, y = -6]{User}
+		\umlactor[x = -7, y = -13]{Administrator}
+
+		\umlinherit{Administrator}{User}
+
+		\umlassoc{Person}{usecase-1}
+		\umlassoc{Person}{usecase-2}
+
+		\umlassoc{User}{usecase-2}
+		\umlassoc{User}{usecase-4}
+		\umlassoc{User}{usecase-5}
+		\umlassoc{User}{usecase-8}
+
+		\umlassoc{Administrator}{usecase-9}
+
+		\umlVHinclude{usecase-2}{usecase-3}
+		\umlVHextend{usecase-6}{usecase-5}
+		\umlVHextend{usecase-7}{usecase-5}
+		\umlextend{usecase-10}{usecase-9}
+	\end{tikzpicture}
+	
 \end{figure}
