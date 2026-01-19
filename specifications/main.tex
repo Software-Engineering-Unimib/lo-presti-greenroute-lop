@@ -1,14 +1,40 @@
 \documentclass{article}
+
 \usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[table]{xcolor}
 \usepackage{tikz}
 \usepackage{./packages/tikz-uml}
+
 \usetikzlibrary{positioning}
+\setlength{\parindent}{0pt}  % turn off indentation so that it can be used to make code readable instead
 
-\begin{document}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{GreenRoute specifications}
+\fancyhead[R]{\thepage}
 
-\section{Introduction}
-todo
+\titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
 
-\input{tex/analysis/use_cases_diagram.tex}
+\title{GreenRoute specifications}
+\author{Fabio Lo Presti}
+\date{\today}
 
+\begin{document}	
+	\maketitle
+	\thispagestyle{empty}
+	This document contains all the analysis and design artifacts that have been produced for The GreenRoute system.
+	The artifacts are ordered to provide a logical progression for understanding the system. If you are a newcomer to the project, I think it's a good idea to look at them in order.
+	If you wish to jump to a specific artifact instead, please consult the table of contents.
+	\tableofcontents
+	\newpage
+
+	\section{Glossary}
+	\input{tex/analysis/glossary.tex}
+	\newpage
+
+	\section{Use case diagram}
+	\input{tex/analysis/use_case_diagram.tex}
 \end{document}
