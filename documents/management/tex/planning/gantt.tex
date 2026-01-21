@@ -1,0 +1,37 @@
+\resizebox{\textwidth}{!}{
+	\begin{ganttchart}[vgrid, hgrid, time slot format=isodate]{2026-01-17}{2026-02-15}
+		
+		\gantttitle{January}{15} 
+		\gantttitle{February}{15} \\
+		
+		\gantttitlelist{17,...,31}{1}
+		\gantttitlelist{1,...,15}{1} 
+		
+		% inception phase
+		\ganttgroup[ group/.append style={fill=green!20} ]{Inception}{2026-01-17}{2026-01-22} \\
+		
+		\ganttbar{Find the initial requirements}{2026-01-17}{2026-01-20} \\
+		\ganttbar{Choose technologies}{2026-01-20}{2026-01-22} \\
+		\ganttbar{Create an initial project plan}{2026-01-20}{2026-01-22} \\
+		
+		% elaboration phase
+		\ganttgroup[ group/.append style={fill=green!20} ]{Elaboration}{2026-01-23}{2026-02-15} \\
+		
+		% iteration 1
+		\ganttgroup[ group/.append style={fill=gray!30} ]{Iteration 1}{2026-01-23}{2026-02-03} \\
+		
+		\ganttbar{Create and update a domain class diagram for the first iteration}{2026-01-23}{2026-01-28} \\
+		\ganttbar{Create system sequence diagrams for the first iteration}{2026-01-23}{2026-01-24} \\
+		\ganttbar{Write contracts for the first iteration}{2026-01-25}{2026-01-26} \\
+		\ganttbar{Create design sequence diagrams for the first iteration}{2026-01-25}{2026-01-26} \\
+		\ganttbar{Create a design class diagram for the first iteration}{2026-01-27}{2026-01-28} \\
+		\ganttbar{Create activity diagrams and state diagrams for the first iteration}{2026-01-27}{2026-01-28} \\
+		\ganttbar{Implement the "View possible routes" use case for the first iteration}{2026-01-29}{2026-02-03} \\
+		\ganttbar{Update the project plan}{2026-02-02}{2026-02-03} \\
+		
+		% iteration 2
+		\ganttgroup[ group/.append style={fill=gray!30} ]{Iteration 2}{2026-02-04}{2026-02-15} \\
+		
+		\ganttbar[bar/.append style={fill=gray!10}]{Execute the second iteration}{2026-02-04}{2026-02-15} \\
+	\end{ganttchart}
+}

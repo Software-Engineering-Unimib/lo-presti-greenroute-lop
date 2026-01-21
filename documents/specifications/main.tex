@@ -8,9 +8,11 @@
 \usepackage{./packages/tikz-uml}
 \usepackage[most]{tcolorbox}
 \usepackage{enumitem}
+\usepackage{pgfgantt}
 
 \usetikzlibrary{positioning}
 \setlength{\parindent}{0pt}  % turn off indentation so that it can be used to make code readable instead
+\hbadness=10000
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -46,5 +48,4 @@
 
 	\section{Supplementary specifications}
 	\input{tex/analysis/supplementary_specifications.tex}
-	\newpage
 \end{document}
