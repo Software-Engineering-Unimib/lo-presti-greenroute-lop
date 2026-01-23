@@ -1,0 +1,61 @@
+\newcommand{\umldomainclass}[4][]{
+	\matrix[
+		matrix of nodes,
+		nodes={draw, anchor=center, inner sep=2pt, text width=#4, align=center},
+		column sep=0pt, row sep=0pt, inner sep=0pt,
+		#1
+	] (#2) {
+		\node[font=\normalsize, align=center] {\textbf{#2}}; \\ % title
+		\node[font=\small, align=left] {#3}; \\   % body
+	};
+}
+
+
+
+\begin{figure}[h]
+	\centering
+	
+	\begin{tikzpicture}
+		\umlsimpleclass[ x = 0, y = 0, fill=white]{Person}
+		\umldomainclass[at={(6, 0)}]{User}{username \\ email}{2cm}
+		\umldomainclass[at={(6,-2)}]{Administrator}{rank}{3cm}
+		
+		\umlsimpleclass[x=10, y=-4, fill=white]{Map}
+		\umldomainclass[at={(0, -4)}]{Route}{timeEstimate \\ distance \\ CO2Estimate}{2cm}
+		\umldomainclass[at={(6, -4)}]{Location}{latitude \\ longitude}{2cm}
+		
+		\umldomainclass[at={(0,-7)}]{TransitMode}{speed \\ CO2PerKilometer}{3cm}
+		\umlsimpleclass[x=-4.5, y=-9, fill=white]{Walking}
+		\umlsimpleclass[x=-1.5, y=-10, fill=white]{Bike}
+		\umlsimpleclass[x=1.5, y=-10, fill=white]{PublicTransport}
+		\umlsimpleclass[x=4.5, y=-9, fill=white]{Car}		
+		
+		\umlinherit{Administrator}{User}
+
+		\draw (0,0.35) -- (0,1);
+		\draw (6,0.55) -- (6,1);
+		\draw (0,1) -- (6,1);
+		\node at (3, 1.3) {creates→};
+		\node at (-0.2, 0.55) {1};
+		\node at (6.35, 0.8) {0..*};
+		\node at (3, 0.2) {authenticated\_as→};
+		\umlassoc[mult1=1, mult2 = {0,1}]{Person}{User}
+
+		\node at (-1, -2) {looks\_up↓};
+		\umlassoc[mult1=0..*, mult2 = 0..*]{Person}{Route}
+		
+		\node at (3, -3.85) {passes\_through→};
+		\umluniaggreg[mult1=0..*, mult2 = 0..*]{Route}{Location}
+
+		\node at (8, -3.85) {is\_in→};
+		\umlassoc[mult1=0..*, mult2 = 1]{Location}{Map}
+		
+		\node at (0.6, -5.5) {uses↓};
+		\umlassoc[mult1=0..*, mult2 = 0..*]{Route}{TransitMode}
+
+		\umlinherit{Walking}{TransitMode}
+		\umlinherit{Bike}{TransitMode}
+		\umlinherit{PublicTransport}{TransitMode}
+		\umlinherit{Car}{TransitMode}
+	\end{tikzpicture}
+\end{figure}
