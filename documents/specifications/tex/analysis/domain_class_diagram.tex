@@ -16,8 +16,9 @@
 	\centering
 	
 	\begin{tikzpicture}
-		\umlsimpleclass[ x = 0, y = 0, fill=white]{Persona}
-		\umldomainclass[at={(6, 0)}]{Utente}{username \\ email}{2cm}
+		\umlsimpleclass[x = 0, y = 0, fill=white]{Persona}
+		\umlsimpleclass[x = 6, y = 0, fill=white]{Utente}
+		\umldomainclass[at={(12, 0)}]{Account}{username \\ email \\ password}{2cm}
 		\umldomainclass[at={(6,-2)}]{Amministratore}{rank}{3cm}
 		
 		\umlsimpleclass[x=10, y=-4, fill=white]{Mappa}
@@ -29,28 +30,30 @@
 		\umlsimpleclass[x=-1.5, y=-10, fill=white]{Bici}
 		\umlsimpleclass[x=1.5, y=-10, fill=white]{TrasportoPubblico}
 		\umlsimpleclass[x=4.5, y=-9, fill=white]{Macchina}		
-		
+
+		\umlinherit{Utente}{Persona}
 		\umlinherit{Amministratore}{Utente}
 
-		\draw (0,0.35) -- (0,1);
-		\draw (6,0.55) -- (6,1);
-		\draw (0,1) -- (6,1);
-		\node at (3, 1.3) {crea→};
+		\draw (0,0.35) -- (0,1.35);
+		\draw (12,0.75) -- (12,1.35);
+		\draw (0,1.35) -- (12,1.36);
+		\node at (5, 1.5) {crea→};
 		\node at (-0.2, 0.55) {1};
-		\node at (6.35, 0.8) {0..*};
-		\node at (3, 0.2) {autenticato\_come→};
-		\umlassoc[mult1=1, mult2 = {0,1}]{Persona}{Utente}
+		\node at (12.35, 1) {0..*};
 
-		\node at (-1, -2) {cerca↓};
+		\node at (9, 0.25) {identificato\_da→};
+		\umlassoc[mult1 = 1, mult2 = 1]{Utente}{Account}
+
+		\node at (-0.5, -2) {cerca↓};
 		\umlassoc[mult1=0..*, mult2 = 0..*]{Persona}{Percorso}
 		
 		\node at (3, -3.85) {passa\_per→};
 		\umluniaggreg[mult1=0..*, mult2 = 0..*]{Percorso}{Posizione}
 
-		\node at (8, -3.85) {è\_in→};
+		\node at (8, -3.8) {è\_in→};
 		\umlassoc[mult1=0..*, mult2 = 1]{Posizione}{Mappa}
 		
-		\node at (0.6, -5.5) {usa↓};
+		\node at (0.4, -5.5) {usa↓};
 		\umlassoc[mult1=0..*, mult2 = 0..*]{Percorso}{ModalitàTrasporto}
 
 		\umlinherit{Cammino}{ModalitàTrasporto}
