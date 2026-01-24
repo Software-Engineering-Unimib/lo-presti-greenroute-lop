@@ -1,192 +1,180 @@
 \newtcolorbox{usecasebox}[1][]{colback=gray!10,colframe=black, #1}
 
-\subsection{Fully dressed use cases}
-\begin{usecasebox}[title=Authentication]
-	\textbf{Scope:}
+\subsection{Casi d’uso in formato dettagliato}
+\begin{usecasebox}[title=Autenticati]
+	\textbf{Ambito:}
 	GreenRoute \\
 
-	\textbf{Level:}
-	User goal \\
+	\textbf{Livello:}
+	Obiettivo utente \\
 
-	\textbf{Primary actor:}
-	Person \\
+	\textbf{Attore primario:}
+	Persona \\
 
-	\textbf{Stakeholders and interests:} \\
-	The person wants to prove their identity to access the features of the system that only an authenticated user can \\
+	\textbf{Stakeholder e interessi:} \\
+	La persona desidera dimostrare la propria identità per accedere alle funzionalità del sistema riservate agli utenti autenticati \\
 
-	\textbf{Preconditions:} The person is not authenticated \\
+	\textbf{Precondizioni:}
+	La persona non è autenticata \\
 
-	\textbf{Postconditions:}
-	The person (now a user) has proven their identity to the system and has been recognized \\
+	\textbf{Postcondizioni:}
+	La persona (ora utente) ha dimostrato la propria identità al sistema ed è stata riconosciuta \\
 
-	\textbf{Main success scenario:}
+	\textbf{Scenario di successo principale:}
 	\begin{enumerate}[itemsep=0pt, topsep=0pt]
-		\item The person requests to authenticate with the system
-		\item The system prompts the person to provide their email address and password
-		\item The person submits the requested credentials
-		\item The system confirms that the person has been successfully authenticated and provides account information, such as the username
+		\item La persona richiede di autenticarsi al sistema
+		\item Il sistema chiede alla persona di fornire il proprio indirizzo email e la password
+		\item La persona inserisce le credenziali richieste
+		\item Il sistema conferma che la persona è stata autenticata con successo e fornisce informazioni dell’account, come lo username
 	\end{enumerate}
 	\vspace{1\baselineskip}
 
-	\textbf{Extensions:} \\
-	\hspace*{1em} 4a.1 The system informs the person that the authentication has failed and gives them the \\
-	\hspace*{3em} option to either register a new user or try again \\[0.5em]
-	\hspace*{2em} 4a.2a The person asks to try again \\[0.5em]
-	\hspace*{2em} 4a.3a The use case starts again from step 1 \\[0.5em]
+	\textbf{Estensioni:} \\
+	\hspace*{1em} 4a.1 Il sistema informa la persona che l’autenticazione non è riuscita e offre la \\
+	\hspace*{3em} possibilità di registrare un nuovo utente o riprovare \\[0.5em]
+	\hspace*{2em} 4a.2a La persona sceglie di riprovare \\[0.5em]
+	\hspace*{2em} 4a.3a Il caso d’uso riparte dal passo 2 \\[0.5em]
 	\\
-	\hspace*{2em} 4a.2b The person asks to register a new user \\[0.5em]
-	\hspace*{2em} 4a.3b The use case \textbf{Register user} starts\\[0.5em]
+	\hspace*{2em} 4a.2b La persona sceglie di registrare un nuovo utente \\[0.5em]
+	\hspace*{2em} 4a.3b Ha inizio il caso d’uso \textbf{Registrazione utente} \\[0.5em]
 
+	\textbf{Requisiti speciali:} Nessuno \\
 
-	\textbf{Special Requirements:} None  \\
-	
-	\textbf{Technology and Data Variations List:} None  \\
+	\textbf{Elenco di variazioni tecnologiche e dei dati:} Nessuna \\
 
-	\textbf{Frequency of Occurrence:} Could be nearly continuous \\
+	\textbf{Frequenza di occorrenza:}
+	Potenzialmente quasi continua \\
 
-	\textbf{Open issues:} None\\
+	\textbf{Questioni aperte:} Nessuna \\
 \end{usecasebox}
 \newpage
 
-\begin{usecasebox}[title= Register user]
-	\textbf{Scope:}
+\begin{usecasebox}[title=Registra un utente]
+	\textbf{Ambito:}
 	GreenRoute \\
 
-	\textbf{Level:}
-	User goal \\
+	\textbf{Livello:}
+	Obiettivo utente \\
 
-	\textbf{Primary actor:}
-	Person \\
+	\textbf{Attore primario:}
+	Persona \\
 
-	\textbf{Stakeholders and interests:} \\
-	The person wants to register their identity in the system to access the features that only an authenticated user can \\
+	\textbf{Stakeholder e interessi:} \\
+	La persona desidera registrare la propria identità nel sistema per accedere alle funzionalità riservate agli utenti autenticati \\
 
-	\textbf{Preconditions:} None \\
+	\textbf{Precondizioni:}
+	La persona non è autenticata  \\
 
-	\textbf{Postconditions:}
-	The person has registered an identity in the system\\
+	\textbf{Postcondizioni:}
+	La persona ha registrato un’identità nel sistema \\
 
-	\textbf{Main success scenario:}
+	\textbf{Scenario di successo principale:}
 	\begin{enumerate}[itemsep=0pt, topsep=0pt]
-		\item The person requests to register an identity with the system
-		\item The system prompts the person to provide an email address and the same password twice
-		\item The person submits the requested credentials
-		\item The system emails the person a verification email
-		\item The person verifies their email address within the time frame allowed
-		\item The system confirms that the user has been successfully registered.
+		\item La persona richiede di registrare un’identità nel sistema
+		\item Il sistema chiede alla persona di fornire un indirizzo email e di inserire la stessa password due volte
+		\item La persona inserisce le credenziali richieste
+		\item Il sistema invia alla persona un’email di verifica
+		\item La persona verifica il proprio indirizzo email entro il tempo consentito
+		\item Il sistema conferma che l’utente è stato registrato con successo
 	\end{enumerate}
 	\vspace{1\baselineskip}
 
-	\textbf{Extensions:} \\
-	\hspace*{1em} 4a.1 The system informs the person that the email they provided is not valid \\[0.5em]
-	\hspace*{1em} 4a.2 The use case starts again from step 2 \\[0.5em]
+	\textbf{Estensioni:} \\
+	\hspace*{1em} 4a.1 Il sistema informa la persona che l’email fornita non è valida \\[0.5em]
+	\hspace*{1em} 4a.2 Il caso d’uso riparte dal passo 2 \\[0.5em]
 	\\
-	\hspace*{1em} 4b.1 The system informs the person that the two passwords they provided don't match \\[0.5em]
-	\hspace*{1em} 4b.2 The use case starts again from step 2 \\[0.5em]
+	\hspace*{1em} 4b.1 Il sistema informa la persona che le due password fornite non coincidono \\[0.5em]
+	\hspace*{1em} 4b.2 Il caso d’uso riparte dal passo 2 \\[0.5em]
 	\\
-	\hspace*{1em} 4c.1 The system informs the person that the two passwords they provided are not valid \\[0.5em]
-	\hspace*{1em} 4c.2 The use case starts again from step 2 \\[0.5em]
+	\hspace*{1em} 4c.1 Il sistema informa la persona che le password fornite non sono valide \\[0.5em]
+	\hspace*{1em} 4c.2 Il caso d’uso riparte dal passo 2 \\[0.5em]
 	\\
-	\hspace*{1em} 5a.1 The person tries to verify their email address after the verification email has expired  \\[0.5em]
-	\hspace*{1em} 5a.2 The system informs them of the error and prompts them to try to register again \\[0.5em]
+	\hspace*{1em} 5a.1 La persona tenta di verificare l’email dopo la scadenza del link di verifica \\[0.5em]
+	\hspace*{1em} 5a.2 Il sistema segnala l’errore e invita la persona a registrarsi nuovamente \\[0.5em]
 
-	\textbf{Special Requirements:}
+	\textbf{Requisiti speciali:}
 	\begin{itemize}[label=-,itemsep=0pt, topsep=0pt]
-		\item The system should impose rules on what passwords are allowed that ensure all passwords are at least moderately secure
-	\end{itemize}
-	\vspace{1\baselineskip}
-	
-	\textbf{Technology and Data Variations List:} None \\
-
-	\textbf{Frequency of Occurrence:} Could be nearly continuous \\
-
-	\textbf{Open issues:} None\\
-\end{usecasebox}
-\newpage
-
-\begin{usecasebox}[title= View possible routes]
-	\textbf{Scope:}
-	GreenRoute \\
-
-	\textbf{Level:}
-	User goal \\
-
-	\textbf{Primary actor:}
-	Person  or User\\
-
-	\textbf{Stakeholders and interests:} \\
-	The person wants the system to give them route recommendations tailored to their needs \\
-
-	\textbf{Preconditions:} None \\
-
-	\textbf{Postconditions:}
-	The system has shown the actor routes that match the demands of the user\\
-
-	\textbf{Main success scenario:}
-	\begin{enumerate}[itemsep=0pt, topsep=0pt]
-		\item The system provides the actor with map information
-		\item The actor requires to see routes to a specific location within the map
-		\item The system asks to be given a starting position
-		\item The actor provides a starting position
-		\item The system shows the actor what modes of transport are available and prompts them to choose a subset of them
-		\item The actor selects the allowed modes of transport
-		\item The system asks the actor if the routes should prioritize speed, eco friendliness or be balanced
-		\item The actor selects an option
-		\item The system gives the actor a list of possible routes with time estimates, distances traveled and estimated CO2 emissions	
-	\end{enumerate}
-	\vspace{1\baselineskip}
-	
-	\textbf{Extensions:} None\\
-
-	\textbf{Special Requirements:} None \\
-	
-	\textbf{Technology and Data Variations List:} 
-	\begin{itemize}[label=-,itemsep=0pt, topsep=0pt]
-		\item The actor should be able to insert start and arrival locations by either specifying them manually or by using their phone's current GPS location 
+		\item Il sistema deve imporre regole sulle password consentite, garantendo che siano almeno moderatamente sicure
 	\end{itemize}
 	\vspace{1\baselineskip}
 
-	\textbf{Frequency of Occurrence:} Could be nearly continuous \\
+	\textbf{Elenco di variazioni tecnologiche e dei dati:} Nessuna \\
 
-	\textbf{Open issues:} None\\
+	\textbf{Frequenza di occorrenza:}
+	Potenzialmente quasi continua \\
+
+	\textbf{Questioni aperte:} Nessuna \\
 \end{usecasebox}
 \newpage
 
-\subsection{Brief use cases}
+\begin{usecasebox}[title=Visualizza i percorsi possibili]
+	\textbf{Ambito:}
+	GreenRoute \\
 
-\paragraph{Manage the route history:}
-Users can look at the history of routes they have taken and have the option to delete parts or all of it.\\
-\paragraph{Manage friends:}
-Users can get a list of all their friends. For each of those friends, they can remove the friendship, invite them to a game challenge, look at their game attributes or block them.\\
-\paragraph{Add a friend:}
-Users can send friend requests to other users by specifying their username. The other user can accept the request, deny, or block the sender.\\
-\paragraph{Manage blocked users:}
-Users can get a list of all the users they blocked over time and have the option to unblock any them.\\
-\paragraph{View the game status:}
-Users can view all their own game attributes, such as points, challenges they won or badges they obtained and view rankings that compare them to their friends.\\
-\paragraph{Manage the system:}
-Administrators can see system wide information that is hidden from regular users, such as API usage and take system wide actions, such as temporarily blocking the creation of new accounts.\\
-\paragraph{Manage administrators:}
-Administrators can manage the permissions of administrators of lower rank, make a user an administrator of lower rank than them or remove administrator privileges entirely from administrators of lower rank. \\
+	\textbf{Livello:}
+	Obiettivo utente \\
 
+	\textbf{Attore primario:}
+	Persona o Utente \\
 
-\paragraph{Manage route history:}
-Users can view the history of routes they have taken and may delete individual entries, entries within a time frame or clear the entire history.\\
+	\textbf{Stakeholder e interessi:} \\
+	L’attore desidera che il sistema fornisca raccomandazioni di percorso adattate alle proprie esigenze \\
 
-\paragraph{Manage friends:}
-Users can view a list of all their friends. For each friend, they may remove the friendship, invite the friend to a game challenge, view the friend’s game-related attributes, or block the friend.\\
+	\textbf{Precondizioni:} Nessuna \\
 
-\paragraph{Add a friend:}
-Users can send friend requests to other users by specifying their username. The recipient may accept the request, decline it, or block the sender.\\
+	\textbf{Postcondizioni:}
+	Il sistema ha mostrato all’attore i percorsi che soddisfano la richiesta \\
 
-\paragraph{Manage blocked users:}
-Users can view a list of all users they have blocked and may unblock any user at any time.\\
+	\textbf{Scenario di successo principale:}
+	\begin{enumerate}[itemsep=0pt, topsep=0pt]
+		\item Il sistema fornisce all’attore le informazioni della mappa
+		\item L’attore richiede di visualizzare i percorsi verso una destinazione specifica
+		\item Il sistema chiede di fornire una posizione di partenza
+		\item L’attore fornisce la posizione di partenza
+		\item Il sistema mostra le modalità di trasporto disponibili e chiede di selezionarne un sottoinsieme
+		\item L’attore seleziona le modalità di trasporto da consentire
+		\item Il sistema chiede se i percorsi debbano privilegiare la velocità, l’ecosostenibilità o un compromesso tra le due
+		\item L’attore seleziona un’opzione
+		\item Il sistema fornisce un elenco di percorsi possibili con stime di tempo, distanza percorsa ed emissioni di CO\textsubscript{2}
+	\end{enumerate}
+	\vspace{1\baselineskip}
 
-\paragraph{View game status:}
-Users can view their own game-related attributes, such as points earned, challenges won, and badges obtained. They can also view rankings that compare their performance with that of their friends.\\
+	\textbf{Estensioni:} Nessuna \\
 
-\paragraph{Manage the system:}
-Administrators can access system-wide information that is not available to regular users, such as API usage statistics, and can perform system-wide actions, including temporarily disabling the creation of new accounts.\\
+	\textbf{Requisiti speciali:} Nessuno \\
 
-\paragraph{Manage administrators:}
-Administrators can manage the permissions of administrators with a lower rank. This includes granting administrator privileges at a lower rank or revoking administrator privileges entirely from lower-ranked administrators.\\
+	\textbf{Elenco di variazioni tecnologiche e dei dati:}
+	\begin{itemize}[label=-,itemsep=0pt, topsep=0pt]
+		\item L’attore deve poter inserire le posizioni di partenza e arrivo sia manualmente sia utilizzando la posizione GPS corrente del dispositivo
+	\end{itemize}
+	\vspace{1\baselineskip}
+
+	\textbf{Frequenza di occorrenza:}
+	Potenzialmente quasi continua \\
+
+	\textbf{Questioni aperte:} Nessuna \\
+\end{usecasebox}
+\newpage
+
+\subsection{Casi d’uso in formato breve}
+
+\paragraph{Gestisci la cronologia dei percorsi:}
+Gli utenti possono visualizzare la cronologia dei percorsi effettuati e hanno la possibilità di eliminare singole voci, sezioni o l’intera cronologia.\\
+
+\paragraph{Gestisci gli amici:}
+Gli utenti possono visualizzare l’elenco di tutti i propri amici. Per ciascun amico possono rimuovere l’amicizia, invitarlo a una sfida di gioco, visualizzarne gli attributi di gioco o bloccarlo.\\
+
+\paragraph{Aggiungi un amico:}
+Gli utenti possono inviare richieste di amicizia ad altri utenti specificando il loro username. Il destinatario può accettare la richiesta, rifiutarla o bloccare il mittente.\\
+
+\paragraph{Gestisci gli utenti bloccati:}
+Gli utenti possono visualizzare l’elenco di tutti gli utenti bloccati nel tempo e possono sbloccarne uno o più qualsiasi.\\
+
+\paragraph{Visualizza lo stato di gioco:}
+Gli utenti possono visualizzare tutti i propri attributi di gioco, come punti accumulati, sfide vinte e badge ottenuti, nonché consultare classifiche che li confrontano con i propri amici.\\
+
+\paragraph{Gestisci il sistema:}
+Gli amministratori possono accedere a informazioni di sistema non disponibili agli utenti standard, come l’utilizzo delle API, ed eseguire azioni a livello globale, ad esempio bloccare temporaneamente la creazione di nuovi account.\\
+
+\paragraph{Gestisci gli amministratori:}
+Gli amministratori possono gestire i permessi degli amministratori di livello inferiore, assegnando privilegi amministrativi di livello inferiore o revocandoli completamente.\\

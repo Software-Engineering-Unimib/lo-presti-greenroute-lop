@@ -8,41 +8,42 @@
 \usepackage[most]{tcolorbox}
 \usepackage{enumitem}
 \usepackage{pgfgantt}
+\usepackage[italian]{babel}
 
 \usetikzlibrary{positioning}
-\setlength{\parindent}{0pt}  % turn off indentation so that it can be used to make code readable instead
+\setlength{\parindent}{0pt}  % disabilità l'indentazione così che possa essere utilizzata per rendere il codice leggibile
 \hbadness=10000
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{GreenRoute specifications}
+\fancyhead[L]{Gestione di GreenRoute}
 \fancyhead[R]{\thepage}
 
 \titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
 \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
 
-\title{GreenRoute management}
+\title{Gestione di GreenRoute}
 \author{Fabio Lo Presti}
-\date{\today}
+\date{}
 
 \begin{document}	
 	\maketitle
 	\thispagestyle{empty}
-	This document contains all the project management artifacts that have been produced for The GreenRoute system.
-	If you wish to jump to a specific artifact, please consult the table of contents.
+	Questo documento contiene tutti gli artefatti di gestione prodotti per il sistema GreenRoute.
+	Consultare il sommario per saltare ad un artefatto specifico.
 
 	\tableofcontents
 	\newpage
 
-	\section{Task efforts and dependencies}
+	\section{Sforzo richiesto per le task e dipendenze}
 	\input{tex/planning/task_table.tex}
 	\newpage
 
-	\section{Gantt diagram}
+	\section{Diagramma di gantt}
 	\input{tex/planning/gantt.tex}
 	\newpage
 
-	\section{Risk assessment}
+	\section{Stima del rischio}
 	\input{tex/estimates/risk_probabilities.tex}
 	\newpage
 \end{document}

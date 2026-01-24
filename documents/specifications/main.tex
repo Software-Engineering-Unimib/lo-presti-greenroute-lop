@@ -9,47 +9,46 @@
 \usepackage[most]{tcolorbox}
 \usepackage{enumitem}
 \usepackage{pgfgantt}
+\usepackage[italian]{babel}
 
 \usetikzlibrary{positioning, matrix, arrows.meta}
-\setlength{\parindent}{0pt}  % turn off indentation so that it can be used to make code readable instead
+\setlength{\parindent}{0pt}  % disabilità l'indentazione così che possa essere utilizzata per rendere il codice leggibile
 \hbadness=10000
 
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[L]{GreenRoute specifications}
+\fancyhead[L]{Specifiche di GreenRoute}
 \fancyhead[R]{\thepage}
 
 \titleformat{\section}{\large\bfseries}{\thesection.}{1em}{}
 \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{1em}{}
 
-\title{GreenRoute specifications}
+\title{Specifiche di GreenRoute}
 \author{Fabio Lo Presti}
-\date{\today}
+\date{}
 
 \begin{document}	
 	\maketitle
 	\thispagestyle{empty}
-	This document contains all the analysis and design artifacts that have been produced for The GreenRoute system.
-	The artifacts are ordered to provide a logical progression for understanding the system. If you are a newcomer to the project, I think it's a good idea to look at them in order.
-	If you wish to jump to a specific artifact instead, please consult the table of contents.
+	Questo documento contiene tutti gli artefatti di analisi e progettazione prodotti per il sistema GreenRoute. Gli artefatti sono ordinati in modo da fornire una progressione logica per comprendere il sistema.
+	Per chi è nuovo al progetto, penso sia una buona idea esaminarli nell’ordine indicato. Se invece si desidera passare direttamente a un artefatto specifico, è possibile consultare il sommario.
 	\tableofcontents
 	\newpage
 
-	\section{Glossary}
+	\section{Glossario}
 	\input{tex/analysis/glossary.tex}
 	\newpage
 
-	\section{Use case diagram}
+	\section{Diagramma dei casi d'uso}
 	\input{tex/analysis/use_case_diagram.tex}
 	\newpage
 
-	\section{Use cases}
+	\section{Casi d'uso}
 	\input{tex/analysis/use_cases.tex}
 
-	\section{Supplementary specifications}
+	\section{Specifiche supplementari}
 	\input{tex/analysis/supplementary_specifications.tex}
-	\newpage
 
-	\section{Domain class diagram}
+	\section{Diagramma delle classi di dominio}
 	\input{tex/analysis/domain_class_diagram.tex}
 \end{document}

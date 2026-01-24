@@ -1,34 +1,34 @@
-This document is the repository of all GreenRoute requirements not captured in the use cases.\\
+In questo documento sono situati tutti i requisiti di GreenRoute non descritti nei casi d’uso.\\
 
-{\large \textbf{Functionality}} \\
+{\large \textbf{Funzionalità}} \\
 \begin{itemize}[label=-,itemsep=0pt, topsep=0pt]
-	\item All sensitive user data should be handled and stored safely and privately. Encryption is a must over networks
-	\item The system should impose rules on what passwords are allowed that ensure all passwords are at least moderately secure
-	\item Access to the system must be possible through a mobile app that is available on both android and IOS
+	\item Tutti i dati sensibili degli utenti devono essere gestiti e archiviati in modo sicuro e privato. La crittografia è obbligatoria per le comunicazioni via rete
+	\item Il sistema deve imporre regole sulle password consentite, garantendo che tutte le password siano almeno moderatamente sicure
+	\item L’accesso al sistema deve essere possibile tramite un’applicazione mobile disponibile sia su Android sia su iOS
 \end{itemize}
 \vspace{1\baselineskip}
 
-{\large \textbf{Usability}} \\
+{\large \textbf{Usabilità}} \\
 \begin{itemize}[label=-,itemsep=0pt, topsep=0pt]
-	\item The interaction flow must follow standard mobile application usability conventions familiar to users of comparable systems
-	\item For operations that take more than a second, the system should visually display that it is not stuck, but is actively working on responding to the input
+	\item Il flusso di interazione deve seguire le convenzioni di usabilità standard delle applicazioni mobili, familiari agli utenti di sistemi comparabili
+	\item Per le operazioni che richiedono più di un secondo, il sistema deve indicare visivamente che non è bloccato, ma sta attivamente elaborando la risposta all’input
 \end{itemize}
 \vspace{1\baselineskip}
 
-{\large \textbf{Reliability}} \\
+{\large \textbf{Affidabilità}} \\
 \begin{itemize}[label=-,itemsep=0pt, topsep=0pt]
-	\item The system should handle access to persistent storage safely and robustly, taking into account race conditions and eventual crashes
+	\item Il sistema deve gestire l’accesso allo storage persistente in modo sicuro e robusto, tenendo conto di race condition e di eventuali arresti anomali
 \end{itemize}
 \vspace{1\baselineskip}
 
-{\large \textbf{Performance}} \\
+{\large \textbf{Prestazioni}} \\
 \begin{itemize}[label=-,itemsep=0pt, topsep=0pt]
-	\item System response times should be minimized, and interactions should feel as instantaneous as possible, within the limits of the hardware used and of what the available development resources allow
+	\item I tempi di risposta del sistema devono essere minimizzati e le interazioni devono risultare il più possibile istantanee, entro i limiti consentiti dal hardware utilizzato e delle risorse di sviluppo (cioè tempo e persone) disponibili
 \end{itemize}
 \vspace{1\baselineskip}
 
-{\large \textbf{Supportability}} \\
+{\large \textbf{Supportabilità}} \\
 \begin{itemize}[label=-,itemsep=0pt, topsep=0pt]
-	\item The technologies used to develop the app must enable building for both Android and iOS from a single codebase, while minimizing the need for testing on both platforms
-	\item The system should be implemented using high-level, high-abstraction programming languages and frameworks to maximize development speed and ease of maintenance
+	\item Le tecnologie utilizzate per sviluppare l’app devono consentire la creazione di build per Android e iOS a partire da una singola codebase, riducendo al minimo la necessità di test specifici alla piattaforma
+	\item Il sistema deve essere implementato utilizzando linguaggi di programmazione e framework di alto livello e ad alto grado di astrazione, al fine di massimizzare la velocità di sviluppo e la facilità di manutenzione
 \end{itemize}

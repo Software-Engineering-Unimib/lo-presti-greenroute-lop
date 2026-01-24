@@ -3,39 +3,39 @@
 	
 	\begin{tikzpicture}
 		\begin{umlsystem}[x=0, y=0, fill=brown!10]{GreenRoute}
-			\umlusecase[x=0, y=0, fill=red!20]{Authentication}
-			\umlusecase[x=4, y=-2, fill=red!20]{Register user}
+			\umlusecase[x=0, y=0, fill=red!20]{Autenticati}
+			\umlusecase[x=4, y=-2, fill=red!20]{Registra un utente}
 
-			\umlusecase[x=0, y=-3, fill=brown!20]{View possible routes}
-			\umlusecase[x=0, y=-4, fill=brown!20]{Manage the route history}
+			\umlusecase[x=0, y=-3, fill=brown!20]{Visualizza i percorsi possibili}
+			\umlusecase[x=0, y=-4, fill=brown!20]{Gestisci la cronologia dei percorsi}
 
-			\umlusecase[x=4, y=-5, fill=yellow!20]{Manage friends}
-			\umlusecase[x=3, y=-6, fill=yellow!20]{Add a friend}
-			\umlusecase[x=2, y=-7, fill=yellow!20]{Manage blocked users}
-			\umlusecase[x=0, y=-8, fill=yellow!20]{View the game status}
+			\umlusecase[x=4, y=-5, fill=yellow!20]{Gestisci gli amici}
+			\umlusecase[x=3, y=-6, fill=yellow!20]{Aggiungi un amico}
+			\umlusecase[x=2, y=-7, fill=yellow!20]{Gestisci gli utenti bloccati}
+			\umlusecase[x=0, y=-8, fill=yellow!20]{Visualizza lo stato di gioco}
 
-			\umlusecase[x=0, y=-9, fill=orange!20]{Manage the system}
-			\umlusecase[x=0, y=-11, fill=orange!20]{Manage administrators}
+			\umlusecase[x=0, y=-9, fill=orange!20]{Gestisci il sistema}
+			\umlusecase[x=0, y=-11, fill=orange!20]{Gestisci gli amministratori}
 		\end{umlsystem}
 
-		\umlactor[x = -7, y = 0]{Person}
-		\umlactor[x = -7, y = -5]{User}
-		\umlactor[x = -7, y = -9]{Administrator}
+		\umlactor[x = -7, y = 0]{Persona}
+		\umlactor[x = -7, y = -4]{Utente}
+		\umlactor[x = -7, y = -9]{Amministratore}
 
-		\umlinherit{Administrator}{User}
+		\umlinherit{Amministratore}{Utente}
 
-		\umlassoc{Person}{usecase-1}
-		\umlassoc{Person}{usecase-2}
-		\umlassoc{Person}{usecase-3}
+		\umlassoc{Persona}{usecase-1}
+		\umlassoc{Persona}{usecase-2}
+		\umlassoc{Persona}{usecase-3}
 
-		\umlassoc{User}{usecase-3}
-		\umlassoc{User}{usecase-4}
-		\umlassoc{User}{usecase-5}
-		\umlassoc{User}{usecase-6}
-		\umlassoc{User}{usecase-7}
-		\umlassoc{User}{usecase-8}
+		\umlassoc{Utente}{usecase-3}
+		\umlassoc{Utente}{usecase-4}
+		\umlassoc{Utente}{usecase-5}
+		\umlassoc{Utente}{usecase-6}
+		\umlassoc{Utente}{usecase-7}
+		\umlassoc{Utente}{usecase-8}
 
-		\umlassoc{Administrator}{usecase-9}
+		\umlassoc{Amministratore}{usecase-9}
 
 		\umlVHextend{usecase-2}{usecase-1}
 		\umlextend{usecase-10}{usecase-9}
