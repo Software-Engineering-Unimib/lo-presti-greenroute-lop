@@ -1,0 +1,44 @@
+\newcommand{\fullarrow}[4][-{Latex[scale=1.6]}]{%
+  \draw[#1] #2 -- #3 node[midway, above] {#4};
+}
+
+\newcounter{operatortextcounter}
+
+\newcommand{\operator}[4]{
+	\stepcounter{operatortextcounter}%
+	\draw (#1) rectangle (#2);
+	\node[anchor= north west, xshift=0pt, yshift=0pt] (operatortext\theoperatortextcounter) at (#1) {#3};
+	\draw ($(#1) + (0, -13pt) $) -- ($(operatortext\theoperatortextcounter.north east) + (0pt, -13pt)$);
+	\draw ($(operatortext\theoperatortextcounter.north east) + (0pt, -13pt)$) -- ($(operatortext\theoperatortextcounter.north east) + (5pt, -8pt)$);
+	\draw ($(operatortext\theoperatortextcounter.north east) + (5pt, -8pt)$) -- ($(operatortext\theoperatortextcounter.north east) + (5pt, 0pt)$);
+	\node[anchor= north west, xshift=0pt, yshift=0pt] (operatortext\theoperatortextcounter) at ($(operatortext\theoperatortextcounter.north east) + (5pt, 0pt)$) {#4};
+}
+
+\subsection{Visualizza i percorsi possibili}
+\begin{figure}[h]
+	\centering
+	
+	\begin{tikzpicture}
+		\umlactor[x = -6, y = 0]{Persona}
+		\umlsimpleclass[x=6, y=0, fill=white]{Sistema}
+
+		\draw[dash pattern=on 6pt off 6pt] (-6,-1) -- (-6,-16);
+		\draw[dash pattern=on 6pt off 6pt] (6,-0.35) -- (6,-16);
+
+		\operator{-7.5, -2}{7.5, -5}{loop}{[richiede sezioni di mappa]}
+		\fullarrow{(-6,-3)}{(6,-3)}{getTile(x, y, zoom)}
+		\fullarrow[dashed, -{Straight Barb[scale=1.6]}]{(6,-4)}{(-6,-4)}{sezione mappa}
+
+		\fullarrow{(-6, -6)}{(6,-6)}{setDestination(longitude, latitude)}
+		\fullarrow[dashed, -{Straight Barb[scale=1.6]}]{(6,-7)}{(-6,-7)}{chiedi un punto di partenza}
+
+		\fullarrow{(-6, -8)}{(6,-8)}{setStartingPosition(longitude, latitude)}
+		\fullarrow[dashed, -{Straight Barb[scale=1.6]}]{(6,-9)}{(-6,-9)}{lista mezzi di trasporto selezionabili}
+
+		\fullarrow{(-6, -10)}{(6,-10)}{setTransitModes(selection)}
+		\fullarrow[dashed, -{Straight Barb[scale=1.6]}]{(6,-11)}{(-6,-11)}{mosta opzioni di tipo di percorso (veloce, ecologico, bilanciato)}
+
+		\fullarrow{(-6, -12)}{(6,-12)}{setRouteType(tipo)}
+		\fullarrow[dashed, -{Straight Barb[scale=1.6]}]{(6,-13)}{(-6,-13)}{percorsi con le rispettive distanze, stime di tempo e di CO\textsubscript{2} emessa}
+	\end{tikzpicture}
+\end{figure}
