@@ -1,0 +1,43 @@
+\input{./src/common/tex/preamble.tex}
+
+\usepackage{src/common/latex_packages/tikz-uml}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usepackage[most]{tcolorbox}
+\usepackage{enumitem}
+
+\usetikzlibrary{positioning, matrix, arrows.meta, calc}
+
+\fancyhead[L]{Analisi di GreenRoute}
+\title{Analisi di GreenRoute}
+
+\begin{document}	
+	\maketitle
+	\thispagestyle{empty}
+	Questo documento contiene tutti gli artefatti di analisi prodotti per il sistema GreenRoute,
+	cioè tutti gli artefatti che rispondono, in un modo o nel altro, alla domanda "cosa è GreenRoute?".
+	Consultare l'indice per saltare ad un artefatto specifico.
+	\tableofcontents
+	\newpage
+
+	\section{Glossario}
+	\input{src/analysis/glossary.tex}
+	\newpage
+
+	\section{Diagramma dei casi d'uso}
+	\input{src/analysis/use_case_diagram.tex}
+	\newpage
+
+	\section{Casi d'uso}
+	\input{src/analysis/use_cases.tex}
+
+	\section{Specifiche supplementari}
+	\input{src/analysis/supplementary_specifications.tex}
+
+	\section{Diagramma delle classi di dominio}
+	\input{src/analysis/domain_class_diagram.tex}
+	\newpage	
+
+	\section{Diagramma di sequenza di sistema}
+	\input{src/analysis/system_sequence_diagrams.tex}
+\end{document}

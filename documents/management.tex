@@ -1,0 +1,29 @@
+\input{./src/common/tex/preamble.tex}
+
+\usepackage[table]{xcolor}
+\usepackage{pgfgantt}
+
+\fancyhead[L]{Gestione di GreenRoute}
+\title{Gestione di GreenRoute}
+
+\begin{document}	
+	\maketitle
+	\thispagestyle{empty}
+	Questo documento contiene tutti gli artefatti di gestione prodotti per il sistema GreenRoute.
+	Consultare l'indice per saltare ad un artefatto specifico.
+
+	\tableofcontents
+	\newpage
+
+	\section{Sforzo richiesto per le task e dipendenze}
+	\input{src/management/planning/task_table.tex}
+	\newpage
+
+	\section{Diagramma di gantt}
+	\input{src/management/planning/gantt.tex}
+	\newpage
+
+	\section{Stima del rischio}
+	\input{src/management/estimates/risk_probabilities.tex}
+	\newpage
+\end{document}
