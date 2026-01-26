@@ -1,0 +1,19 @@
+\newcommand{\operationcontract}[4]{
+	\par
+	\fbox{
+		\begin{minipage}{\linewidth}
+			\textbf{Operazione:} #1 \\
+			\textbf{Riferimenti:} #2 \\
+			\textbf{Pre-condizioni:} #3 \\
+			\textbf{Post-condizioni:} #4 \\
+		\end{minipage}
+	} 
+	\par
+	\vspace{1\baselineskip}
+}
+
+\operationcontract
+	{getMapSection(minLatitude, minLongitude, maxLatitude, maxLongitude)}
+	{Caso d'uso "Visualizza i percorsi possibili"}
+	{Nessuna}
+	{La persona visualizza la sezione di mappa richiesta}
