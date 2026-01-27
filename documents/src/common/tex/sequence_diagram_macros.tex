@@ -1,9 +1,9 @@
 \newcommand{\sdmessagearrow}[5][]{
-  \draw[-{Latex[scale=1.6]}, #1] (#2, #4) -- (#3, #4) node[midway, above] {#5};
+  \draw[-{Latex[scale=1.6]}] (#2, #4) -- (#3, #4) node[midway, above, #1] {#5};
 }
 
 \newcommand{\sdresponsearrow}[5][]{
-  \draw[dashed, -{Straight Barb[scale=1.6]}] (#2, #4) -- (#3, #4) node[midway, above] {#5};
+  \draw[dashed, -{Straight Barb[scale=1.6]}] (#2, #4) -- (#3, #4) node[midway, above, #1] {#5};
 }
 
 \newcommand{\sdlifeline}[3]{
@@ -18,5 +18,5 @@
 	\draw ($(#1) + (0, -13pt) $) -- ($(operatortext\theoperatortextcounter.north east) + (0pt, -13pt)$);
 	\draw ($(operatortext\theoperatortextcounter.north east) + (0pt, -13pt)$) -- ($(operatortext\theoperatortextcounter.north east) + (5pt, -8pt)$);
 	\draw ($(operatortext\theoperatortextcounter.north east) + (5pt, -8pt)$) -- ($(operatortext\theoperatortextcounter.north east) + (5pt, 0pt)$);
-	\node[anchor= north west, xshift=0pt, yshift=0pt] (operatortext\theoperatortextcounter) at ($(operatortext\theoperatortextcounter.north east) + (7pt, 0pt)$) {#4};
+	\node[anchor= north west, xshift=0pt, yshift=0pt] (operatortext\theoperatortextcounter) at ($(operatortext\theoperatortextcounter.north east) + (15pt, 0pt)$) {#4};
 }

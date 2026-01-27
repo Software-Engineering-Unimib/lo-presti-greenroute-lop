@@ -1,4 +1,10 @@
 \input{./src/common/tex/preamble.tex}
+\input{./src/common/tex/sequence_diagram_macros.tex}
+
+\usepackage{src/common/latex_packages/tikz-uml}
+\usepackage{graphicx}
+
+\usetikzlibrary{arrows.meta, calc}
 
 \fancyhead[L]{Progettazione di GreenRoute}
 \title{Progettazione di GreenRoute}
@@ -11,5 +17,9 @@
 	Consultare l'indice per saltare ad un artefatto specifico.
 
 	\tableofcontents
+	\newpage
+
+	\section{Diagrammi di sequenza}
+	\input{src/design/sequence_diagrams.tex}
 	\newpage
 \end{document}
