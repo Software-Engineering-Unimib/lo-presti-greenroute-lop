@@ -1,23 +1,17 @@
-#!/usr/bin/env bash
-
-# Exit immediately on unset variables
 set -u
 
-# validate argument
 if [[ $# -lt 1 ]]; then
     echo "Usage: ./build.sh <tex file name>.tex"
     exit 1
 fi
 
-# variables
+# variabili
 MAINFILE="$1"
 PASSES=2
 BUILD_DIR="build"
 
-# ensure build directory exists
 mkdir -p "$BUILD_DIR"
 
-# Compile multiple times
 for (( i=1; i<=PASSES; i++ )); do
     echo "Running pdflatex (pass $i)..."
     pdflatex -interaction=nonstopmode -output-directory="$BUILD_DIR" "$MAINFILE"
@@ -36,4 +30,3 @@ cd "$BUILD_DIR" || exit 1
 rm -f *.aux *.log *.toc
 
 echo "Build completed successfully!"
-
