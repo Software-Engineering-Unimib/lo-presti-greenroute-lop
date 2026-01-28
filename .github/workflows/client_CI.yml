@@ -1,0 +1,75 @@
+name: Test e build del client
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  android-build:
+
+    runs-on: ubuntu-latest
+
+
+    defaults:
+      run:
+        working-directory: client/react_native
+
+    env:
+      JAVA_HOME: /usr/lib/jvm/java-17-temurin
+
+    steps:
+    # passa il codice della repository al runner
+    - name: Checkout del codice
+      uses: actions/checkout@v4
+
+    - name: Set up di Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 24.13.0
+
+    - name: Set up di Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: 21.0.9
+
+    - name: Cache dei moduli npm
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        # la chiave dipenderà dal OS usato e dai contenuti di package-lock.json
+        key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+    - name: Installa le dipendenze
+      run: npm install
+
+    - name: Cache delle dependency di gradle
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        # la chiave dipenderà dal OS usato e dai contenuti di package-lock.json
+        key: ${{ runner.os }}-gradle-${{ hashFiles('android/gradle/wrapper/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    - name: Esegui i test Jest
+      run: npm test
+
+    - name: Esegui i test unitari
+      working-directory: client/react_native/android
+      run: ./gradlew test
+
+    - name: Build del APK android
+      working-directory: client/react_native/android
+      run: ./gradlew assembleDebug
+
+    - name: Carica l'APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-apk
+        path: android/app/build/outputs/apk/debug/app-debug.apk
+
