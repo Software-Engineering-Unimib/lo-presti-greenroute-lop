@@ -1,0 +1,5 @@
+services:
+  gateway:
+    build: microservices/gateway
+    ports:
+      - "80:80"
