@@ -1,4 +1,4 @@
-name: Build LaTeX Document
+name: Build dei documenti LaTeX
 
 on:
   push:
@@ -9,6 +9,8 @@ on:
     branches: [main]
     paths:
       - 'documents/**'
+  workflow_dispatch:
+    branches: [main]
 
 jobs:
   build-latex:
@@ -21,15 +23,18 @@ jobs:
     - name: Checkout del codice
       uses: actions/checkout@v4
 
+    - name: Cache dei pacchetti APT
+      uses: actions/cache@v4
+      with:
+        path: /var/cache/apt/archives
+        key: ${{ runner.os }}-apt-${{ hashFiles('apt_packages.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-apt-
+
     - name: Installa TeX Live
       run: |
         sudo apt-get update
-        sudo apt-get install -y texlive-latex-base \
-                              texlive-latex-recommended \
-                              texlive-latex-extra \
-                              texlive-pictures \
-                              texlive-lang-italian
-
+        xargs -a apt_packages.txt sudo apt-get install -y
 
     - name: Compila i documenti
       run: |
