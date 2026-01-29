@@ -11,13 +11,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
-
     defaults:
       run:
         working-directory: client/react_native
 
     env:
       JAVA_HOME: /usr/lib/jvm/java-17-temurin
+
 
     steps:
     # passa il codice della repository al runner
@@ -59,7 +59,7 @@ jobs:
     - name: Esegui i test Jest
       run: npm test
 
-    - name: Esegui i test unitari
+    - name: Esegui i test gradlew
       working-directory: client/react_native/android
       run: ./gradlew test
 
