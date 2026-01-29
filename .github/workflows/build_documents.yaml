@@ -1,0 +1,50 @@
+name: Build LaTeX Document
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'documents/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'documents/**'
+
+jobs:
+  build-latex:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: documents
+    steps:
+    # passa il codice della repository al runner
+    - name: Checkout del codice
+      uses: actions/checkout@v4
+
+    - name: Installa TeX Live
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y texlive-latex-base \
+                              texlive-latex-recommended \
+                              texlive-latex-extra \
+                              texlive-pictures \
+                              texlive-lang-italian
+
+
+    - name: Compila i documenti
+      run: |
+        chmod +x ./build.sh
+
+        for f in *.tex; do
+          # se $f file non esiste o non è un file, saltalo 
+          [ -f "$f" ] || continue
+          echo "Compilo $f..."
+          bash ./build.sh "$f" || echo "Errore: Non è stato possibile compilare $f"
+        done
+
+    - name: Carica i PDF
+      uses: actions/upload-artifact@v4
+      with:
+        name: compiled-documents
+        path: documents/build/*.pdf
+
