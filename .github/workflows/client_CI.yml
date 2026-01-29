@@ -1,24 +1,23 @@
-name: Test e build del client
+name: Test e build di debug del client
 
 on:
   push:
     branches: [main]
+    paths:
+      - 'client/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'client/**'
 
 jobs:
-  android-build:
-
+  android-test-and-debug-build:
     runs-on: ubuntu-latest
-
     defaults:
       run:
         working-directory: client/react_native
-
     env:
       JAVA_HOME: /usr/lib/jvm/java-17-temurin
-
-
     steps:
     # passa il codice della repository al runner
     - name: Checkout del codice
@@ -71,5 +70,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: debug-apk
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+        path: client/react_native/android/app/build/outputs/apk/debug/app-debug.apk
 
