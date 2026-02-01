@@ -1,6 +1,8 @@
   services:
     gateway:
-      build: microservices/gateway
+      build: ./microservices/gateway
       env_file: ${ENVIRONMENT_VARIABLES_FILE}
       ports:
         - "443:443"
+      volumes:
+        - ${CERTIFICATE_DIR:-./certificates}:/etc/nginx/certs:rw

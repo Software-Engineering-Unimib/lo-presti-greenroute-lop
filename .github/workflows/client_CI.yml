@@ -57,8 +57,34 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
-    - name: Copia le variabili di ambiente
-      run: cp ../../.env.development .env
+    - name: Configura le variabili di ambiente e imposta un certificato SSL
+      run: |
+        cp ../../.env.development .env
+        source .env
+
+        (
+          cd ../../server/$CERTIFICATE_DIR && source ./generate_dev_cert.sh
+        )
+
+        mkdir -p ./android/app/src/debug/res/raw/
+        openssl x509 -outform der -in ../../server/$CERTIFICATE_DIR/$CERTIFICATE_NAME -out ./android/app/src/debug/res/raw/certificate.crt
+
+        cat <<'EOF'
+        [INFO]
+        Android rifiuta di default i certificati SSL non
+        firmati da una CA (Certification Authority) attendibile.
+
+        In ambiente di sviluppo, il server utilizza un certificato
+        autofirmato. Questo certificato viene esplicitamente incluso
+        nell'APK e configurato come attendibile, in modo da evitare il
+        rifiuto delle connessioni HTTPS da parte del client.
+
+        Per questo motivo, durante la CI viene generato un certificato SSL
+        temporaneo, utilizzato esclusivamente per consentire la build
+        e i test dell'APK in modalità debug.
+
+        In assenza di questo certificato, la build di debug fallirebbe.
+        EOF
 
     - name: Esegui i test Jest
       run: npm test
@@ -70,10 +96,3 @@ jobs:
     - name: Build del APK android
       working-directory: client/react_native/android
       run: ./gradlew assembleDebug
-
-    - name: Carica l'APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: debug-apk
-        path: client/react_native/android/app/build/outputs/apk/debug/app-debug.apk
-
