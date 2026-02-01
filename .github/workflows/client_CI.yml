@@ -57,6 +57,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
+    - name: Copia le variabili di ambiente
+      run: cp ../../.env.development .env
+
     - name: Esegui i test Jest
       run: npm test
 

@@ -1,9 +1,8 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { MapView, Camera, RasterSource, RasterLayer} from "@maplibre/maplibre-react-native";
-
-serverURL = "10.0.2.2";
-serverPort = 80;
+import { API_URL, API_PORT } from '@env';
+;
 
 export default function App() {
   return (
@@ -17,7 +16,7 @@ export default function App() {
       
       <RasterSource
         id="osm-proxy"
-        tileUrlTemplates={[`http://${serverURL}:${serverPort}/tiles/{z}/{x}/{y}.png`]}
+        tileUrlTemplates={[`https://${API_URL}:${API_PORT}/tiles/{z}/{x}/{y}.png`]}
         tileSize={256}
       > 
         <RasterLayer

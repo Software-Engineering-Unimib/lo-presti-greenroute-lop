@@ -1,5 +1,6 @@
-services:
-  gateway:
-    build: microservices/gateway
-    ports:
-      - "80:80"
+  services:
+    gateway:
+      build: microservices/gateway
+      env_file: ${ENVIRONMENT_VARIABLES_FILE}
+      ports:
+        - "443:443"
