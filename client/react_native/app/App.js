@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import { MapView, Camera, RasterSource, RasterLayer} from "@maplibre/maplibre-react-native";
+import { MapView, Camera, RasterSource, RasterLayer, BackgroundLayer } from "@maplibre/maplibre-react-native";
 import { API_URL, API_PORT } from '@env';
 ;
 
@@ -14,6 +14,11 @@ export default function App() {
         centerCoordinate={[9.185, 45.465]}
       />
       
+      <BackgroundLayer
+        id="black-background"
+        style={{ backgroundColor: "#000000" }}
+      />
+
       <RasterSource
         id="osm-proxy"
         tileUrlTemplates={[`https://${API_URL}:${API_PORT}/tiles/{z}/{x}/{y}.png`]}
