@@ -1,8 +1,33 @@
-  services:
-    gateway:
-      build: ./microservices/gateway
-      env_file: ${ENVIRONMENT_VARIABLES_FILE}
-      ports:
-        - "443:443"
-      volumes:
-        - ${CERTIFICATE_DIR:-./certificates}:/etc/nginx/certs:rw
+  
+networks:
+  server-network:
+    driver: bridge
+
+services:
+  gateway:
+    build: ./microservices/gateway
+    env_file: ${ENVIRONMENT_VARIABLES_FILE}
+    ports:
+      - "443:443"
+    volumes:
+      - ${CERTIFICATE_DIR:-./certificates}:/etc/nginx/certs:rw
+    depends_on:
+      - tile-proxy
+    networks:
+      - server-network
+
+  tile-proxy:
+    build: ./microservices/tile_proxy
+    depends_on:
+      - redis
+    networks:
+      - server-network
+
+  redis:
+    image: redis:7
+    volumes:
+      - ./microservices/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    restart: unless-stopped
+    networks:
+      - server-network
