@@ -1,45 +1,34 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import React, { FC } from "react";
+import { StyleSheet } from "react-native";
 import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+  MapView,
+  Camera,
+  RasterSource,
+  RasterLayer,
+  BackgroundLayer
+} from "@maplibre/maplibre-react-native";
+import { API_URL, API_PORT } from "@env";
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
-
+// Optional: explicitly type the component
+const App: FC = () => {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
+    <MapView style={StyleSheet.absoluteFill}>
+      <Camera zoomLevel={10} centerCoordinate={[9.185, 45.465]} />
 
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
+      <BackgroundLayer
+        id="black-background"
+        style={{ backgroundColor: "#000000" }}
       />
-    </View>
-  );
-}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+      <RasterSource
+        id="osm-proxy"
+        tileUrlTemplates={[`https://${API_URL}:${API_PORT}/tiles/{z}/{x}/{y}.png`]}
+        tileSize={256}
+      >
+        <RasterLayer id="osm-layer" sourceID="osm-proxy" />
+      </RasterSource>
+    </MapView>
+  );
+};
 
 export default App;
