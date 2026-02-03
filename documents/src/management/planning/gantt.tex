@@ -6,36 +6,34 @@
 		\gantttitlelist{17,...,31}{1}
 		\gantttitlelist{1,...,15}{1} \\
 		
-		% Fase di Inception
+		% Fase di ideazione
 		\ganttgroup[group/.append style={fill=green!20}]{Ideazione}{2026-01-17}{2026-01-22} \\
 		
 		\ganttbar{Identificazione dei requisiti chiave e dei rischi}{2026-01-17}{2026-01-22} \\
 		\ganttbar{Valutazione delle opzioni tecnologiche}{2026-01-18}{2026-01-22} \\
 		\ganttbar{Creazione del piano di progetto iniziale}{2026-01-20}{2026-01-22} \\
 		
-		% Fase di Elaboration
+		% Fase di elaborazione
 		\ganttgroup[group/.append style={fill=green!20}]{Elaborazione}{2026-01-23}{2026-02-15} \\
 		
-		% Iterazione 1
+		% iterazione 1
 		\ganttgroup[group/.append style={fill=gray!30}]{Iterazione 1}{2026-01-23}{2026-02-03} \\
-		
-		% Requisiti e analisi
+
 		\ganttbar{Raffinamento dei requisiti}{2026-01-23}{2026-01-28} \\
 		\ganttbar{Analisi del dominio}{2026-01-23}{2026-01-28} \\
-		
-		% Progettazione
 		\ganttbar{Progettazione logica e definizione dei meccanismi chiave}{2026-01-24}{2026-01-30} \\
+		\ganttbar{Implementazione parziale del caso d'uso "Visualizza i percorsi possibili"}{2026-01-27}{2026-02-03} \\
+		\ganttbar{Configurazione del integrazione continua e del testing}{2026-01-27}{2026-02-03} \\
+		\ganttbar{Aggiornamento del piano }{2026-02-02}{2026-02-03} \\
 		
-		% Implementazione e testing
-		\ganttbar{Implementazione incrementale dei casi d'uso}{2026-01-27}{2026-02-03} \\
-		\ganttbar{Integrazione continua e testing}{2026-01-27}{2026-02-03} \\
-		
-		% Gestione
-		\ganttbar{Valutazione dell'iterazione e aggiornamento del piano}{2026-02-02}{2026-02-03} \\
-		
-		% Iterazione 2
+		% iterazione 2
 		\ganttgroup[group/.append style={fill=gray!30}]{Iterazione 2}{2026-02-04}{2026-02-15} \\
-		
-		\ganttbar{Esecuzione dell'iterazione 2}{2026-02-04}{2026-02-15} \\
+
+		\ganttbar{Ulteriore analisi}{2026-02-04}{2026-02-05} \\
+		\ganttbar{Ulteriore progettazione}{2026-02-04}{2026-02-07} \\
+		\ganttbar{Implementazione completa del caso d'uso "Visualizza i percorsi possibili"}{2026-02-06}{2026-02-13} \\
+		\ganttbar{Scrittura di test}{2026-02-06}{2026-02-13} \\
+		\ganttbar{Refactoring}{2026-02-11}{2026-02-13} \\
+		\ganttbar{Scrittura relazione}{2026-02-13}{2026-02-15} \\
 	\end{ganttchart}
 }
