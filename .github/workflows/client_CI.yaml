@@ -57,6 +57,13 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-gradle-
 
+    - name: Esegui i test Jest
+      run: npm test
+
+    - name: Esegui i test gradlew
+      working-directory: client/react_native/android
+      run: ./gradlew test
+
     - name: Configura le variabili di ambiente e imposta un certificato SSL
       run: |
         cp ../../.env.development .env
@@ -85,13 +92,6 @@ jobs:
 
         In assenza di questo certificato, la build di debug fallirebbe.
         EOF
-
-    - name: Esegui i test Jest
-      run: npm test
-
-    - name: Esegui i test gradlew
-      working-directory: client/react_native/android
-      run: ./gradlew test
 
     - name: Build del APK android
       working-directory: client/react_native/android
