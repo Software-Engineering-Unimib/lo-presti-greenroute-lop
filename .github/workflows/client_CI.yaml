@@ -10,7 +10,6 @@ on:
     paths:
       - 'client/**'
   workflow_dispatch:
-    branches: [main]
 
 jobs:
   android-test-and-debug-build:
