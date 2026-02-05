@@ -1,1 +1,2 @@
 /documents/** linguist-vendored
+/client/react_native/ios/** linguist-vendored
