@@ -1,4 +1,4 @@
-\newtcolorbox{usecasebox}[1][]{colback=gray!10,colframe=black, #1}
+\newtcolorbox{usecasebox}[1][]{colback=gray!10,colframe=black, before upper=\small, before title=\small,, #1}
 
 \subsection{Casi d’uso in formato dettagliato}
 \begin{usecasebox}[title=Autenticati]
@@ -127,19 +127,38 @@
 
 	\textbf{Scenario di successo principale:}
 	\begin{enumerate}[itemsep=0pt, topsep=0pt]
-		\item Il sistema fornisce alla persona le informazioni della mappa
+		\item Il sistema fornisce alla persona le informazioni della mappa e chiede di selezionare una posizione di partenza
 		\item La persona richiede di visualizzare i percorsi verso una destinazione specifica
-		\item Il sistema chiede di fornire una posizione di partenza
+		\item Il sistema chiede di fornire una posizione di partenza o di annullare l'ultima scelta
 		\item La persona fornisce la posizione di partenza
-		\item Il sistema mostra le modalità di trasporto disponibili e chiede di selezionarne un sottoinsieme
-		\item La persona seleziona le modalità di trasporto da consentire
-		\item Il sistema chiede se i percorsi debbano privilegiare la velocità, l’ecosostenibilità o un compromesso tra le due
-		\item La persona seleziona un’opzione
+		\item Il sistema mostra le modalità di trasporto disponibili e chiede di selezionarne un sottoinsieme.
+		Dà anche la possibilità di annullare l'ultima scelta
+		\item La persona seleziona le modalità di trasporto dà consentire
+		\item Il sistema chiede se i percorsi debbano dare priorità alla velocità, all’ecosostenibilità o fare un compromesso tra le due.
+		Dà anche la possibilità di annullare l'ultima scelta
+		\item La persona seleziona un’opzione tra le priorità dà applicare al percorso
 		\item Il sistema fornisce un elenco di percorsi possibili con stime di tempo, distanza percorsa ed emissioni di CO\textsubscript{2}
+		Dà alla persona la possibilità di visualizzarne uno o annullare l'ultima scelta
+		\item La persona seleziona un percorso dà visualizzare
+		\item Il sistema mostra il percorso selezionato e dà alla persona la possibilità di annullare l'ultima scelta
 	\end{enumerate}
 	\vspace{1\baselineskip}
 
-	\textbf{Estensioni:} Nessuna \\
+	\textbf{Estensioni:} \\
+		\hspace*{1em} 3a.1 La persona chiede di annullare l'ultima scelta \\[0.5em]
+		\hspace*{1em} 3a.2 Il caso d’uso riparte dal passo 1 \\[0.5em]
+		\\
+		\hspace*{1em} 5a.1 La persona chiede di annullare l'ultima scelta \\[0.5em]
+		\hspace*{1em} 5a.2 Il caso d’uso riparte dal passo 3 \\[0.5em]
+		\\
+		\hspace*{1em} 7a.1 La persona chiede di annullare l'ultima scelta \\[0.5em]
+		\hspace*{1em} 7a.2 Il caso d’uso riparte dal passo 5 \\[0.5em]
+		\\
+		\hspace*{1em} 9a.1 La persona chiede di annullare l'ultima scelta \\[0.5em]
+		\hspace*{1em} 9a.2 Il caso d’uso riparte dal passo 7 \\[0.5em]
+		\\
+		\hspace*{1em} 11a.1 La persona chiede di annullare l'ultima scelta \\[0.5em]
+		\hspace*{1em} 11a.2 Il caso d’uso riparte dal passo 9 \\[0.5em]
 
 	\textbf{Requisiti speciali:} Nessuno \\
 
