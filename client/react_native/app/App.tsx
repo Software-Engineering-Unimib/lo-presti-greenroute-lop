@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import * as React from "react";
 import { StyleSheet } from "react-native";
 import {
   MapView,
@@ -9,26 +9,29 @@ import {
 } from "@maplibre/maplibre-react-native";
 import { API_URL, API_PORT } from "@env";
 
-// Optional: explicitly type the component
-const App: FC = () => {
-  return (
-    <MapView style={StyleSheet.absoluteFill}>
-      <Camera zoomLevel={10} centerCoordinate={[9.185, 45.465]} />
+class App extends React.Component<{}, {}> {
+  private tileUrl: string;
+  private mapChildren: React.ReactNode[];
 
-      <BackgroundLayer
-        id="black-background"
-        style={{ backgroundColor: "#000000" }}
-      />
+  constructor(props: {}) {
+    super(props);
 
-      <RasterSource
-        id="osm-proxy"
-        tileUrlTemplates={[`https://${API_URL}:${API_PORT}/tiles/{z}/{x}/{y}.png`]}
-        tileSize={256}
-      >
-        <RasterLayer id="osm-layer" sourceID="osm-proxy" />
-      </RasterSource>
-    </MapView>
-  );
-};
+    this.tileUrl = `https://${API_URL}:${API_PORT}/tiles/{z}/{x}/{y}.png`;
+
+    this.mapChildren = [
+      React.createElement(Camera, { zoomLevel: 10, centerCoordinate: [9.185, 45.465] }),
+      React.createElement(BackgroundLayer, { id: "black-background", style: { backgroundColor: "#000000" } }),
+      React.createElement(
+        RasterSource,
+        { id: "osm-proxy", tileUrlTemplates: [this.tileUrl], tileSize: 256 },
+        React.createElement(RasterLayer, { id: "osm-layer", sourceID: "osm-proxy" })
+      )
+    ];
+  }
+
+  render(): React.ReactNode {
+    return React.createElement(MapView, { style: StyleSheet.absoluteFill }, ...this.mapChildren);
+  }
+}
 
 export default App;
