@@ -1,2 +1,5 @@
+/documents/* linguist-vendored
 /documents/** linguist-vendored
+/client/react_native/ios/* linguist-vendored
 /client/react_native/ios/** linguist-vendored
+/client/react_native/Gemfile linguist-vendored
