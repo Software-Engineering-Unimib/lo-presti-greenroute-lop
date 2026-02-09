@@ -2,63 +2,56 @@
 \pgfmathsetmacro{\lifelinemaxy}{-0.35}
 \pgfmathsetmacro{\lifelinehalfwidth}{0.15}
 
-% Define x positions
-\pgfmathsetmacro{\xclient}{0}
-\pgfmathsetmacro{\xgateway}{\xclient + 6}
-\pgfmathsetmacro{\xproxy}{\xgateway + 6}
+\pgfmathsetmacro{\xmapview}{0}
+\pgfmathsetmacro{\xmaplibre}{\xmapview + 8}
+\pgfmathsetmacro{\xproxy}{\xmaplibre + 6}
 \pgfmathsetmacro{\xcache}{\xproxy + 6}
 \pgfmathsetmacro{\xsource}{\xcache + 6}
 
 \subsection{Operazione: setMapSection(latitude, longitude, zoom)}
 
-L'intero client viene trattato come un sistema a scatola nera, in quanto il funzionamento esatto lato client
-del operazione è ancora da determinare ed è necessario l'inizio del implementazione per chiarirlo.
-\\
-
 \resizebox{\textwidth}{!}{
 	\centering
 	\begin{tikzpicture}
-		\umlsimpleclass[x=\xclient, y=0, fill=white, type=sottosistema]{Client}
-		\umlsimpleclass[x=\xgateway, y=0, fill=white]{g : APIGateway}
-		\umlsimpleclass[x=\xproxy, y=0, fill=white]{p : TileProxy}
+		\umlsimpleclass[x=\xmapview, y=0, fill=white]{m : MapView}
+		\umlsimpleclass[x=\xmaplibre, y=0, fill=white, type=libreria]{MapLibre}
+		\umlsimpleclass[x=\xproxy, y=0, fill=white]{p : TileProxyServer}
 		\umlsimpleclass[x=\xcache, y=0, fill=white]{c : TileCache}
-		\umlsimpleclass[x=\xsource, y=0, fill=white, type=sistema esterno]{TileSource}
-		
-		\sdlifeline{\xclient}{\lifelinemaxy}{\lifelineminy}
-		\draw[fill=white] (\xclient - \lifelinehalfwidth, -3.5) rectangle (\xclient + \lifelinehalfwidth, -18.5);
-		\sdlifeline{\xgateway}{\lifelinemaxy}{\lifelineminy}
-		\draw[fill=white] (\xgateway - \lifelinehalfwidth, -8) rectangle (\xgateway + \lifelinehalfwidth, -16.5);
+		\umlsimpleclass[x=\xsource, y=0, fill=white]{f : TileFetcher}
+
+		\sdlifeline{\xmapview}{\lifelinemaxy}{\lifelineminy}
+		\draw[fill=white] (\xmapview - \lifelinehalfwidth, -3.5) rectangle (\xmapview + \lifelinehalfwidth, -18.5);
+		\draw[fill=white] (\xmapview - \lifelinehalfwidth + 0.1, -5.5) rectangle (\xmapview + \lifelinehalfwidth + 0.1, -6.5);
+		\draw[fill=white] (\xmapview - \lifelinehalfwidth + 0.1, -16.5) rectangle (\xmapview + \lifelinehalfwidth + 0.1, -17.5);
+		\sdlifeline{\xmaplibre}{\lifelinemaxy}{\lifelineminy}
+		\draw[fill=white] (\xmaplibre - \lifelinehalfwidth, -4.5) rectangle (\xmaplibre + \lifelinehalfwidth, -17.5);
 		\sdlifeline{\xproxy}{\lifelinemaxy}{\lifelineminy}
-		\draw[fill=white] (\xproxy - \lifelinehalfwidth, -9) rectangle (\xproxy + \lifelinehalfwidth, -15.5);
+		\draw[fill=white] (\xproxy - \lifelinehalfwidth, -8) rectangle (\xproxy + \lifelinehalfwidth, -14.5);
 		\sdlifeline{\xcache}{\lifelinemaxy}{\lifelineminy}
-		\draw[fill=white] (\xcache - \lifelinehalfwidth, -10) rectangle (\xcache + \lifelinehalfwidth, -11);
+		\draw[fill=white] (\xcache - \lifelinehalfwidth, -9) rectangle (\xcache + \lifelinehalfwidth, -10);
 		\sdlifeline{\xsource}{\lifelinemaxy}{\lifelineminy}
-		\draw[fill=white] (\xsource - \lifelinehalfwidth, -13.5) rectangle (\xsource + \lifelinehalfwidth, -14.5);
+		\draw[fill=white] (\xsource - \lifelinehalfwidth, -12.5) rectangle (\xsource + \lifelinehalfwidth, -13.5);
 		
-		\filldraw[black] (\xclient - 8, -3.5) circle (0.1cm);
-		\sdmessagearrow{\xclient - 8}{\xclient - \lifelinehalfwidth}{-3.5}{setMapSection(latitude, longitude, zoom)}
+		\filldraw[black] (\xmapview - 8, -3.5) circle (0.1cm);
+		\sdmessagearrow{\xmapview - 8}{\xmapview - \lifelinehalfwidth}{-3.5}{setMapSection(latitude, longitude, zoom)}
 
-		\draw (\xclient + \lifelinehalfwidth, -4.5) -- (\xclient + \lifelinehalfwidth + 0.5, -4.5);
-		\draw (\xclient + \lifelinehalfwidth + 0.5, -4.5) -- (\xclient + \lifelinehalfwidth + 0.5, -5.5) node[midway, right] {repaint()};
-		\draw[-{Latex[scale=1.6]}] (\xclient + \lifelinehalfwidth + 0.5, -5.5) -- (\xclient + \lifelinehalfwidth, -5.5);
+		\sdmessagearrow{\xmapview + \lifelinehalfwidth}{\xmaplibre - \lifelinehalfwidth}{-4.5}{setMapSection(latitude, longitude, zoom)}
 
-		\sdoperator{\xclient - \lifelinehalfwidth - 1.2, -6.5}{\xsource + \lifelinehalfwidth + 2.4, -19}{loop}{[il client non possiede tutte le tile]}
+		\sdmessagearrow{\xmaplibre - \lifelinehalfwidth}{\xmapview + \lifelinehalfwidth}{-5.5}{onDraw()}
 
-		\sdmessagearrow{\xclient + \lifelinehalfwidth}{\xgateway - \lifelinehalfwidth}{-8}{getTile(x, y, depth)}
-		\sdmessagearrow{\xgateway + \lifelinehalfwidth}{\xproxy - \lifelinehalfwidth}{-9}{getTile(x, y, depth)}
-		\sdmessagearrow{\xproxy + \lifelinehalfwidth}{\xcache - \lifelinehalfwidth}{-10}{getTile(x, y, depth)}
-		\sdresponsearrow{\xcache - \lifelinehalfwidth}{\xproxy + \lifelinehalfwidth}{-11}{tile}
+		\sdoperator{\xmapview- \lifelinehalfwidth - 1.2, -7}{\xsource + \lifelinehalfwidth + 2.4, -19}{loop}{[il client non possiede tutte le tile]}
 
-		\sdoperator{\xproxy - \lifelinehalfwidth - 1, -12}{\xsource + \lifelinehalfwidth + 1, -15}{opt}{[tile==null]}
+		\sdmessagearrow{\xmaplibre + \lifelinehalfwidth}{\xproxy - \lifelinehalfwidth}{-8}{getTile(x, y, depth)}
+		\sdmessagearrow{\xproxy + \lifelinehalfwidth}{\xcache - \lifelinehalfwidth}{-9}{getTile(x, y, depth)}
+		\sdresponsearrow{\xcache - \lifelinehalfwidth}{\xproxy + \lifelinehalfwidth}{-10}{tile}
+
+		\sdoperator{\xproxy - \lifelinehalfwidth - 1, -11}{\xsource + \lifelinehalfwidth + 1, -14}{opt}{[tile==null]}
 		
-		\sdmessagearrow[xshift=3cm]{\xproxy + \lifelinehalfwidth}{\xsource - \lifelinehalfwidth}{-13.5}{getTile(x, y, depth)}
-		\sdresponsearrow[xshift=3cm]{\xsource - \lifelinehalfwidth}{\xproxy + \lifelinehalfwidth}{-14.5}{tile}
+		\sdmessagearrow[xshift=3cm]{\xproxy + \lifelinehalfwidth}{\xsource - \lifelinehalfwidth}{-12.5}{getTile(x, y, depth)}
+		\sdresponsearrow[xshift=3cm]{\xsource - \lifelinehalfwidth}{\xproxy + \lifelinehalfwidth}{-13.5}{tile}
 		
-		\sdresponsearrow{\xproxy - \lifelinehalfwidth}{\xgateway + \lifelinehalfwidth}{-15.5}{tile}
-		\sdresponsearrow{\xgateway - \lifelinehalfwidth}{\xclient + \lifelinehalfwidth}{-16.5}{tile}
+		\sdresponsearrow{\xproxy - \lifelinehalfwidth}{\xmaplibre + \lifelinehalfwidth}{-14.5}{tile}
 
-		\draw (\xclient + \lifelinehalfwidth, -17.5) -- (\xclient + \lifelinehalfwidth + 0.5, -17.5);
-		\draw (\xclient + \lifelinehalfwidth + 0.5, -17.5) -- (\xclient + \lifelinehalfwidth + 0.5, -18.5) node[midway, right] {paintTile(tile)};
-		\draw[-{Latex[scale=1.6]}] (\xclient + \lifelinehalfwidth + 0.5, -18.5) -- (\xclient + \lifelinehalfwidth, -18.5);
+		\sdmessagearrow{\xmaplibre - \lifelinehalfwidth}{\xmapview + \lifelinehalfwidth}{-16.5}{onDraw()}
 	\end{tikzpicture}
 }
