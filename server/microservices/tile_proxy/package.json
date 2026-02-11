@@ -1,7 +1,7 @@
 {
     "scripts": {
         "build": "tsc -p .",
-        "start": "node dist/proxy.js"
+        "start": "node dist/server.js"
     },
     "dependencies": {
         "express": "^4.18.2",

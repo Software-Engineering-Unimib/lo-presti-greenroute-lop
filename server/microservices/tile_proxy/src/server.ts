@@ -1,7 +1,7 @@
-// src/server.ts
 import express, { Request, Response, Express } from 'express';
 import http from 'http';
 import { createClient, RedisClientType } from 'redis';
+
 
 export interface TileProxyOptions {
   port?: number;
@@ -11,8 +11,21 @@ export interface TileProxyOptions {
   userAgent?: string;
 }
 
+
 export class TileCache {
-  constructor(private client: RedisClientType) {}
+  private client: RedisClientType;
+  private tileTtlSeconds: number;
+
+  constructor(redisUrl?: string, tileTtlSeconds?: number) {
+    redisUrl = redisUrl ?? 'redis://redis:6379';
+    this.tileTtlSeconds = tileTtlSeconds ?? 60 * 60 * 24 * 7; 
+
+    this.client = createClient({ url: redisUrl });
+  }
+
+  private getTileKey(x: string, y: string, z: string): string {
+    return `tile:${z}:${x}:${y}`;
+  }
 
   async connect(): Promise<void> {
     this.client.on('error', (err: Error) => {
@@ -25,39 +38,31 @@ export class TileCache {
     try {
       await this.client.quit();
     } catch (err) {
-      // If quit fails, try disconnect
+      // se quit fallisce, prova disconnect
       await this.client.disconnect();
     }
   }
 
-  /**
-   * Return cached tile as Buffer or null if missing.
-   */
-  async get(key: string): Promise<Buffer | null> {
-    // preserve returnBuffers behavior as in your original code
+  async get(x: string, y: string, z: string): Promise<Buffer | null> {
     const result = (await this.client.get(
       this.client.commandOptions({ returnBuffers: true }),
-      key
+      this.getTileKey(x, y, z)
     )) as Buffer | null;
     return result;
   }
 
-  /**
-   * Store a tile Buffer with TTL (seconds).
-   */
-  async set(key: string, value: Buffer, ttlSeconds: number): Promise<void> {
-    await this.client.set(key, value, { EX: ttlSeconds });
+  async set(x: string, y: string, z: string, tileBuffer: Buffer): Promise<void> {
+    await this.client.set(this.getTileKey(x, y, z), tileBuffer, { EX: this.tileTtlSeconds });
   }
 }
+
 
 export class TileFetcher {
   constructor(private userAgent = 'green-route/1.0') {}
 
   async fetchTile(z: string, x: string, y: string): Promise<Buffer> {
     const osmUrl = `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;
-    const response = await fetch(osmUrl, {
-      headers: { 'User-Agent': this.userAgent },
-    });
+    const response = await fetch(osmUrl, {headers: { 'User-Agent': this.userAgent }});
 
     if (!response.ok) {
       const err = new Error(`OSM fetch failed with status ${response.status}`);
@@ -70,6 +75,7 @@ export class TileFetcher {
   }
 }
 
+
 export class TileProxyServer {
   private app: Express;
   private server?: http.Server;
@@ -77,18 +83,13 @@ export class TileProxyServer {
   private fetcher: TileFetcher;
   private port: number;
   private host: string;
-  private tileTtlSeconds: number;
 
   constructor(private options: TileProxyOptions = {}) {
     this.app = express();
     this.port = options.port ?? 3000;
     this.host = options.host ?? '0.0.0.0';
-    this.tileTtlSeconds = options.tileTtlSeconds ?? 60 * 60 * 24 * 7; // 1 week default
 
-    const redisUrl = options.redisUrl ?? 'redis://redis:6379';
-    const redisClient: RedisClientType = createClient({ url: redisUrl });
-
-    this.cache = new TileCache(redisClient);
+    this.cache = new TileCache(options.redisUrl, options.tileTtlSeconds);
     this.fetcher = new TileFetcher(options.userAgent);
 
     this.app.get('/:z/:x/:y.png', this.handleTileRequest.bind(this));
@@ -98,33 +99,30 @@ export class TileProxyServer {
 
   private async handleTileRequest(req: Request, res: Response): Promise<void> {
     const { z, x, y } = req.params;
-    const cacheKey = `tile:${z}:${x}:${y}`;
+    const tileValuesString = `z:${z}, x:${x}, y:${y}`;
 
     try {
-      const cachedTile = await this.cache.get(cacheKey);
+      const cachedTile = await this.cache.get(z, x, y);
       if (cachedTile) {
-        console.log('Cache HIT', cacheKey);
+        console.log('Cache HIT', tileValuesString);
         res.set('Content-Type', 'image/png');
         res.send(cachedTile);
-        return;
       }
-
-      console.log('Cache MISS', cacheKey);
-      const tileBuffer = await this.fetcher.fetchTile(z, x, y);
-
-      // store in cache and respond
-      await this.cache.set(cacheKey, tileBuffer, this.tileTtlSeconds);
-
-      res.set('Content-Type', 'image/png');
-      res.send(tileBuffer);
-    } catch (err: any) {
-      if (err && err.status && typeof err.status === 'number') {
-        res.status(err.status).send('Tile not found');
-        return;
+      else {
+        console.log('Cache MISS', tileValuesString);
+        const tileBuffer = await this.fetcher.fetchTile(z, x, y);
+        
+        await this.cache.set(z, x, y, tileBuffer);
+        
+        res.set('Content-Type', 'image/png');
+        res.send(tileBuffer);
       }
-
-      console.error('Tile proxy error:', err);
-      res.status(500).send('Tile proxy error');
+    }
+    catch (err: unknown) {
+      const message = (err as any).message || '""';
+      const status = (err as any).status || 500;
+      console.error('Tile proxy error:', `message:${message}, status:${status}`);
+      res.status(500).send('Internal server error');
     }
   }
 
@@ -132,31 +130,33 @@ export class TileProxyServer {
     try {
       await this.cache.connect();
       console.log('Connected to Redis');
+
+      this.server = await this.app.listen(this.port, this.host);
+      console.log(`Server started on ${this.host}:${this.port}`);
     } catch (err) {
-      console.error('Failed to connect to Redis:', err);
+      console.error('Failed to start the server:', err);
       throw err;
     }
 
-    await new Promise<void>((resolve) => {
-      this.server = this.app.listen(this.port, this.host, () => {
-        console.log(`Tile proxy listening on ${this.host}:${this.port}`);
-        resolve();
-      });
-    });
-
-
+    // imposta callback per segnali di terminazione
     process.once('SIGINT', () => this.shutdown('SIGINT'));
     process.once('SIGTERM', () => this.shutdown('SIGTERM'));
   }
 
   async shutdown(signal?: string): Promise<void> {
-    if (signal) console.log(`Received ${signal}, shutting down...`);
+    if (signal)
+      console.log(`Received ${signal}, shutting down...`);
 
     if (this.server) {
-      await new Promise<void>((resolve) => {
-        this.server!.close(() => resolve());
-      });
-      this.server = undefined;
+      try {
+        await new Promise<void>((resolve, reject) => {
+          this.server!.close((err) => (err ? reject(err) : resolve()));
+        });
+        this.server = undefined;
+        console.log('HTTP server closed');
+      } catch (err) {
+        console.error('Error closing HTTP server:', err);
+      }
     }
 
     try {
@@ -166,12 +166,13 @@ export class TileProxyServer {
       console.warn('Error while disconnecting Redis:', err);
     }
 
-    // If shutdown requested from signal, exit
+    // se lo shutdown è stato richiesto con un segnale di arresto, termina il processo
     if (signal) {
       process.exit(0);
     }
   }
 }
+
 
 // vero solo se questo file è stato eseguito direttamente
 if (require.main === module) {
