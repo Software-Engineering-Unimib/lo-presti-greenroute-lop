@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createClient, RedisClientType } from 'redis';
+import { createClient, RedisClientType, RESP_TYPES } from 'redis';
 import { ServiceServerOptions, ServiceServer } from './ServiceServer';
 
 
@@ -11,14 +11,14 @@ export interface MapTileServiceOptions extends ServiceServerOptions {
 
 
 export class TileCache {
-  private client: RedisClientType;
+  private client: RedisClientType<any, any, any, any, any>;
   private tileTtlSeconds: number;
 
   constructor(redisUrl?: string, tileTtlSeconds?: number) {
     redisUrl = redisUrl ?? 'redis://redis:6379';
     this.tileTtlSeconds = tileTtlSeconds ?? 60 * 60 * 24 * 7; 
 
-    this.client = createClient({ url: redisUrl });
+    this.client = createClient({ url: redisUrl, RESP: 3 }).withTypeMapping({ [RESP_TYPES.BLOB_STRING]: Buffer });
   }
 
   private getTileKey(x: string, y: string, z: string): string {
@@ -42,11 +42,8 @@ export class TileCache {
   }
 
   async get(x: string, y: string, z: string): Promise<Buffer | null> {
-    const result = (await this.client.get(
-      this.client.commandOptions({ returnBuffers: true }),
-      this.getTileKey(x, y, z)
-    )) as Buffer | null;
-    return result;
+    const result = await this.client.get(this.getTileKey(x, y, z));
+    return result as Buffer | null;
   }
 
   async set(x: string, y: string, z: string, tileBuffer: Buffer): Promise<void> {
@@ -84,11 +81,16 @@ export class MapTileServiceServer extends ServiceServer {
     this.cache = new TileCache(options.redisUrl, options.tileTtlSeconds);
     this.fetcher = new TileFetcher(options.userAgent);
 
-    this.app.get('/:z/:x/:y.png', this.handleTileRequest.bind(this));
+    this.app.get('/:zParam/:xParam/:yParam.png', this.handleTileRequest.bind(this));
   }
 
   private async handleTileRequest(req: Request, res: Response): Promise<void> {
-    const { z, x, y } = req.params;
+    const { zParam, xParam, yParam } = req.params;
+    const z = String(zParam);
+    const x = String(xParam);
+    const y = String(yParam);
+
+
     const tileValuesString = `z:${z}, x:${x}, y:${y}`;
 
     try {

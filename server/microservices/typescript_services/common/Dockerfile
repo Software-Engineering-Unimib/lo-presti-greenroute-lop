@@ -7,7 +7,7 @@ RUN npm install
 
 FROM base AS map-tile-service
 COPY ./map_tile_service/ .
-RUN npm install redis@^4.6.13
+RUN npm install redis@^5.10.0
 RUN npm run build
 EXPOSE 3000
 CMD ["npm", "start"]
