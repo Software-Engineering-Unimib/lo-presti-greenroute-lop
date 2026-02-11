@@ -1,11 +1,9 @@
-import express, { Request, Response, Express } from 'express';
-import http from 'http';
+import { Request, Response } from 'express';
 import { createClient, RedisClientType } from 'redis';
+import { ServiceServerOptions, ServiceServer } from './ServiceServer';
 
 
-export interface TileProxyOptions {
-  port?: number;
-  host?: string;
+export interface MapTileServiceOptions extends ServiceServerOptions {
   redisUrl?: string;
   tileTtlSeconds?: number;
   userAgent?: string;
@@ -76,25 +74,17 @@ export class TileFetcher {
 }
 
 
-export class MapTileServiceServer {
-  private app: Express;
-  private server?: http.Server;
+export class MapTileServiceServer extends ServiceServer {
   private cache: TileCache;
   private fetcher: TileFetcher;
-  private port: number;
-  private host: string;
 
-  constructor(private options: TileProxyOptions = {}) {
-    this.app = express();
-    this.port = options.port ?? 3000;
-    this.host = options.host ?? '0.0.0.0';
+  constructor(options: MapTileServiceOptions = {}) {
+    super(options);
 
     this.cache = new TileCache(options.redisUrl, options.tileTtlSeconds);
     this.fetcher = new TileFetcher(options.userAgent);
 
     this.app.get('/:z/:x/:y.png', this.handleTileRequest.bind(this));
-    // health check
-    this.app.get('/health', (_req, res) => res.send('ok'));
   }
 
   private async handleTileRequest(req: Request, res: Response): Promise<void> {
@@ -121,68 +111,27 @@ export class MapTileServiceServer {
     catch (err: unknown) {
       const message = (err as any).message || '""';
       const status = (err as any).status || 500;
-      console.error('Tile proxy error:', `message:${message}, status:${status}`);
+      console.error('Map tile service error:', `message:${message}, status:${status}`);
       res.status(500).send('Internal server error');
     }
   }
 
-  async start(): Promise<void> {
-    try {
-      await this.cache.connect();
-      console.log('Connected to Redis');
-
-      this.server = await this.app.listen(this.port, this.host);
-      console.log(`Server started on ${this.host}:${this.port}`);
-    } catch (err) {
-      console.error('Failed to start the server:', err);
-      throw err;
-    }
-
-    // imposta callback per segnali di terminazione
-    process.once('SIGINT', () => this.shutdown('SIGINT'));
-    process.once('SIGTERM', () => this.shutdown('SIGTERM'));
+  async onStart(): Promise<void> {
+    await this.cache.connect();
+    console.log('Connected to Redis');
   }
 
-  async shutdown(signal?: string): Promise<void> {
-    if (signal)
-      console.log(`Received ${signal}, shutting down...`);
-
-    if (this.server) {
-      try {
-        await new Promise<void>((resolve, reject) => {
-          this.server!.close((err) => (err ? reject(err) : resolve()));
-        });
-        this.server = undefined;
-        console.log('HTTP server closed');
-      } catch (err) {
-        console.error('Error closing HTTP server:', err);
-      }
-    }
-
-    try {
-      await this.cache.disconnect();
-      console.log('Redis disconnected');
-    } catch (err) {
-      console.warn('Error while disconnecting Redis:', err);
-    }
-
-    // se lo shutdown è stato richiesto con un segnale di arresto, termina il processo
-    if (signal) {
-      process.exit(0);
-    }
+  async onShutdown(): Promise<void> {
+    await this.cache.disconnect();
+    console.log('Redis disconnected');
   }
 }
 
 
 // vero solo se questo file è stato eseguito direttamente
-if (require.main === module) {
+if(require.main === module) {
   (async () => {
     const server = new MapTileServiceServer();
-    try {
-      await server.start();
-    } catch (err) {
-      console.error('Startup failed:', err);
-      process.exit(1);
-    }
+    await server.start();
   })();
 }

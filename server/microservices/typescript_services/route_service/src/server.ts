@@ -1,25 +1,12 @@
-import express, { Request, Response, Express } from 'express';
+import { Request, Response } from 'express';
 import http from 'http';
+import { ServiceServerOptions, ServiceServer } from './ServiceServer';
 
-export interface RouteServerOptions {
-  port?: number;
-  host?: string;
-}
 
-export class RouteServer {
-  private app: Express;
-  private server?: http.Server;
-  private port: number;
-  private host: string;
-
-  constructor(private options: RouteServerOptions = {}) {
-    this.app = express();
-    this.port = options.port ?? 3000;
-    this.host = options.host ?? '0.0.0.0';
-
+export class RouteServer extends ServiceServer {
+  constructor(options: ServiceServerOptions = {}) {
+    super(options);
     this.app.get('/', this.handleRouteRequest.bind(this));
-    // health check
-    this.app.get('/health', (_req, res) => res.send('ok'));
   }
 
   private async handleRouteRequest(req: Request, res: Response): Promise<void> {
@@ -84,50 +71,20 @@ export class RouteServer {
 
         res.json(geojsonList);
       }
-    } catch (err: any) {
-      console.error('Error fetching route:', err.message || err);
-      res.status(500).json({ error: 'Failed to get route' });
-    }
-  }
-
-
-  async start(): Promise<void> {
-    await new Promise<void>((resolve) => {
-      this.server = this.app.listen(this.port, this.host, () => {
-        console.log(`Route service listening on ${this.host}:${this.port}`);
-        resolve();
-      });
-    });
-
-    process.once('SIGINT', () => this.shutdown('SIGINT'));
-    process.once('SIGTERM', () => this.shutdown('SIGTERM'));
-  }
-
-  async shutdown(signal?: string): Promise<void> {
-    if (signal) console.log(`Received ${signal}, shutting down...`);
-
-    if (this.server) {
-      await new Promise<void>((resolve) => {
-        this.server!.close(() => resolve());
-      });
-      this.server = undefined;
-    }
-
-    if (signal) {
-      process.exit(0);
+    } catch (err: unknown) {
+      const message = (err as any).message || '""';
+      const status = (err as any).status || 500;
+      console.error('Route service error:', `message:${message}, status:${status}`);
+      res.status(500).send('Internal server error');
     }
   }
 }
 
+
 // vero solo se questo file è stato eseguito direttamente
-if (require.main === module) {
+if(require.main === module) {
   (async () => {
     const server = new RouteServer();
-    try {
-      await server.start();
-    } catch (err) {
-      console.error('Startup failed:', err);
-      process.exit(1);
-    }
+    await server.start();
   })();
 }

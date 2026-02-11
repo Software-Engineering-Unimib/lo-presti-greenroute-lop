@@ -18,14 +18,20 @@ services:
       - server-network
 
   map-tile-service:
-    build: ./microservices/map_tile_service
+    build:
+      context: ./microservices/typescript_services
+      dockerfile: ./common/Dockerfile
+      target: map-tile-service
     depends_on:
       - redis
     networks:
       - server-network
 
   route-service:
-    build: ./microservices/route_service
+    build:
+      context: ./microservices/typescript_services
+      dockerfile: ./common/Dockerfile
+      target: route-service
     depends_on:
       - graphhopper
     networks:
