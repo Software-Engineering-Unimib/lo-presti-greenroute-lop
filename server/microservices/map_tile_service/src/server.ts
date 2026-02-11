@@ -76,7 +76,7 @@ export class TileFetcher {
 }
 
 
-export class TileProxyServer {
+export class MapTileServiceServer {
   private app: Express;
   private server?: http.Server;
   private cache: TileCache;
@@ -177,7 +177,7 @@ export class TileProxyServer {
 // vero solo se questo file è stato eseguito direttamente
 if (require.main === module) {
   (async () => {
-    const server = new TileProxyServer();
+    const server = new MapTileServiceServer();
     try {
       await server.start();
     } catch (err) {

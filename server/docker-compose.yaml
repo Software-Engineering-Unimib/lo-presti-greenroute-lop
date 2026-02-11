@@ -12,13 +12,13 @@ services:
     volumes:
       - ${CERTIFICATE_DIR:-./certificates}:/etc/nginx/certs:rw
     depends_on:
-      - tile-proxy
+      - map-tile-service
       - route-service
     networks:
       - server-network
 
-  tile-proxy:
-    build: ./microservices/tile_proxy
+  map-tile-service:
+    build: ./microservices/map_tile_service
     depends_on:
       - redis
     networks:

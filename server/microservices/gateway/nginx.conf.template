@@ -34,7 +34,7 @@ http {
         ssl_session_timeout 10m;
 
         location /tiles/ {
-            proxy_pass http://tile-proxy:3000/;
+            proxy_pass http://map-tile-service:3000/;
             proxy_set_header Host tile.openstreetmap.org;
         }
 
