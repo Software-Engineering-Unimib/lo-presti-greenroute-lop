@@ -13,6 +13,7 @@ services:
       - ${CERTIFICATE_DIR:-./certificates}:/etc/nginx/certs:rw
     depends_on:
       - tile-proxy
+      - route-service
     networks:
       - server-network
 
@@ -23,10 +24,33 @@ services:
     networks:
       - server-network
 
+  route-service:
+    build: ./microservices/route_service
+    depends_on:
+      - graphhopper
+    networks:
+      - server-network
+
+  graphhopper:
+    # non esiste un'immagine docker ufficiale per graphhopper
+    # l'immagine più utilizzata nella community sembra essere questa
+    image: "israelhikingmap/graphhopper:10.2"
+    env_file: ${ENVIRONMENT_VARIABLES_FILE}
+    environment:
+      JAVA_OPTS: "${GRAPH_HOPPER_JAVA_ARGS}"
+    volumes:
+      - ./microservices/graphhopper/data:/data
+    command: |-
+      --input /data/map_data.pbf
+    networks:
+      - server-network
+
+
   redis:
     image: redis:7
     volumes:
       - ./microservices/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - ./microservices/redis/data:/data
     command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
     restart: unless-stopped
     networks:

@@ -8,3 +8,5 @@
 *.crt
 
 *.und/*
+
+/server/microservices/*/data/

@@ -37,5 +37,9 @@ http {
             proxy_pass http://tile-proxy:3000/;
             proxy_set_header Host tile.openstreetmap.org;
         }
+
+        location /routes/ {
+            proxy_pass http://route-service:3000/;
+        }
     }
 }
