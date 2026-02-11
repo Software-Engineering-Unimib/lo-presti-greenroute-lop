@@ -16,7 +16,9 @@ else
   export SSL_KEY_PATH="???"
 fi
 
-envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+# ATTENZIONE: specificare sempre quali variabili vanno sostituite
+# anche nginx use $... per identificare variabili e envsubst le sostituirà indiscriminatamente con stringhe vuote
+envsubst '${API_PORT} ${SSL_CERTIFICATE_PATH} ${SSL_KEY_PATH}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 
 echo Starting nginx
 exec "$@"
