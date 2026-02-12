@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import http from 'node:http';
-import { ServiceServerOptions, ServiceServer } from '../../common/src/ServiceServer';
+import { ServiceServerOptions, ServiceServer } from '../../common/src/ServiceServer.js';
 
 
 export class RouteServer extends ServiceServer {

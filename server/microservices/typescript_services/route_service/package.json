@@ -1,6 +1,7 @@
 {
   "name": "@typescript_services/route_service",
   "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "@typescript_services/common": "*"
   },

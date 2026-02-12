@@ -1,4 +1,4 @@
-import { MapTileServiceServer } from "./MapTileServiceServer";
+import { MapTileServiceServer } from "./MapTileServiceServer.js";
 
 
 // vero solo se questo file è stato eseguito direttamente

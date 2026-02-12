@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { ServiceServerOptions, ServiceServer } from '../../common/src/ServiceServer';
-import { TileCache } from './TileCache';
-import { TileFetcher } from './TileFetcher';
+import { ServiceServerOptions, ServiceServer } from '../../common/src/ServiceServer.js';
+import { TileCache } from './TileCache.js';
+import { TileFetcher } from './TileFetcher.js';
 
 export interface MapTileServiceOptions extends ServiceServerOptions {
   redisUrl?: string;

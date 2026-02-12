@@ -2,7 +2,8 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
       "rootDir": "src",
-            "tsBuildInfoFile": "./map_tile_service.tsbuildinfo"
+      "outDir": "dist",
+      "tsBuildInfoFile": "./map_tile_service.tsbuildinfo"
   },
   "references": [
     { "path": "../common" }

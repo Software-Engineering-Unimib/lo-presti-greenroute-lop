@@ -1,6 +1,7 @@
 {
   "name": "@typescript_services/map_tile_service",
   "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "@typescript_services/common": "*",
     "redis": "^5.10.0"
