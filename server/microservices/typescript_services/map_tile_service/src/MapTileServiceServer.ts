@@ -11,8 +11,8 @@ export interface MapTileServiceOptions extends ServiceServerOptions {
 
 
 export class MapTileServiceServer extends ServiceServer {
-  private cache: TileCache;
-  private fetcher: TileFetcher;
+  private readonly cache: TileCache;
+  private readonly fetcher: TileFetcher;
 
   constructor(options: MapTileServiceOptions = {}) {
     super(options);
