@@ -1,0 +1,11 @@
+{
+  "name": "@typescript_services/route_service",
+  "version": "1.0.0",
+  "dependencies": {
+    "@typescript_services/common": "*"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "start": "node dist/start.js"
+  }
+}

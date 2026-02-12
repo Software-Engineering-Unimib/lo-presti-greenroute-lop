@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import http from 'http';
-import { ServiceServerOptions, ServiceServer } from './ServiceServer';
+import { ServiceServerOptions, ServiceServer } from '../../common/src/ServiceServer';
 
 
 export class RouteServer extends ServiceServer {

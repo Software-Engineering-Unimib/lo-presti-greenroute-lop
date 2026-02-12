@@ -1,0 +1,12 @@
+{
+  "name": "@typescript_services/map_tile_service",
+  "version": "1.0.0",
+  "dependencies": {
+    "@typescript_services/common": "*",
+    "redis": "^5.10.0"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "start": "node dist/start.js"
+  }
+}

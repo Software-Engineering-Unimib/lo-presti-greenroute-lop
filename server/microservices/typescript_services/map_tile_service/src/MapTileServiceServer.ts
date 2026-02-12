@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { ServiceServerOptions, ServiceServer } from './ServiceServer';
+import { ServiceServerOptions, ServiceServer } from '../../common/src/ServiceServer';
 import { TileCache } from './TileCache';
 import { TileFetcher } from './TileFetcher';
 

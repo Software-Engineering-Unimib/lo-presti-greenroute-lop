@@ -6,7 +6,7 @@ networks:
 services:
   gateway:
     build: ./microservices/gateway
-    env_file: ${ENVIRONMENT_VARIABLES_FILE}
+    env_file: .env
     ports:
       - "443:443"
     volumes:
@@ -16,32 +16,39 @@ services:
       - route-service
     networks:
       - server-network
+    profiles:
+      - development
+      - production
 
   map-tile-service:
     build:
       context: ./microservices/typescript_services
-      dockerfile: ./common/Dockerfile
       target: map-tile-service
     depends_on:
       - redis
     networks:
       - server-network
+    profiles:
+      - development
+      - production
 
   route-service:
     build:
       context: ./microservices/typescript_services
-      dockerfile: ./common/Dockerfile
       target: route-service
     depends_on:
       - graphhopper
     networks:
       - server-network
+    profiles:
+      - development
+      - production
 
   graphhopper:
     # non esiste un'immagine docker ufficiale per graphhopper
     # l'immagine più utilizzata nella community sembra essere questa
     image: "israelhikingmap/graphhopper:10.2"
-    env_file: ${ENVIRONMENT_VARIABLES_FILE}
+    env_file: .env
     environment:
       JAVA_OPTS: "${GRAPH_HOPPER_JAVA_ARGS}"
     volumes:
@@ -50,8 +57,10 @@ services:
       --input /data/map_data.pbf
     networks:
       - server-network
-
-
+    profiles:
+      - development
+      - production
+      
   redis:
     image: redis:7
     volumes:
@@ -61,3 +70,7 @@ services:
     restart: unless-stopped
     networks:
       - server-network
+    profiles:
+      - development
+      - production
+      
