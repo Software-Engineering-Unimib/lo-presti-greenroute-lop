@@ -1,8 +1,8 @@
 import { createClient, RedisClientType, RESP_TYPES } from 'redis';
 
 export class TileCache {
-  private client: RedisClientType<any, any, any, any, any>;
-  private tileTtlSeconds: number;
+  private readonly client: RedisClientType<any, any, any, any, any>;
+  private readonly tileTtlSeconds: number;
 
   constructor(redisUrl?: string, tileTtlSeconds?: number) {
     redisUrl = redisUrl ?? 'redis://redis:6379';
@@ -26,14 +26,15 @@ export class TileCache {
     try {
       await this.client.quit();
     } catch (err) {
+       console.log(`Exception while disconnecting from redis: ${err}`);
       // se quit fallisce, prova disconnect
       await this.client.disconnect();
     }
   }
 
   async get(x: string, y: string, z: string): Promise<Buffer | null> {
-    const result = await this.client.get(this.getTileKey(x, y, z));
-    return result as Buffer | null;
+    const result = await this.client.get(this.getTileKey(x, y, z)) as Buffer | null;;
+    return result;
   }
 
   async set(x: string, y: string, z: string, tileBuffer: Buffer): Promise<void> {

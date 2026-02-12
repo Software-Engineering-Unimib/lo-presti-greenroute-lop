@@ -9,7 +9,7 @@ FROM base AS map-tile-service
 WORKDIR /service/map_tile_service/
 COPY ./map_tile_service/ .
 RUN npm install
-RUN npm run build
+&& npm run build
 EXPOSE 3000
 CMD ["npm", "start"]
 
@@ -17,6 +17,6 @@ FROM base AS route-service
 WORKDIR /service/route_service/
 COPY ./route_service/ .
 RUN npm install
-RUN npm run build
+&& npm run build
 EXPOSE 3000
 CMD ["npm", "start"]

@@ -1,5 +1,5 @@
 import express, { Request, Response, Express } from 'express';
-import http from 'http';
+import http from 'node:http';
 
 
 export interface ServiceServerOptions {
@@ -11,8 +11,8 @@ export interface ServiceServerOptions {
 export class ServiceServer {
   protected app: Express;
   private server?: http.Server;
-  private port: number;
-  private host: string;
+  private readonly port: number;
+  private readonly host: string;
 
   constructor(options: ServiceServerOptions = {}) {
     this.app = express();

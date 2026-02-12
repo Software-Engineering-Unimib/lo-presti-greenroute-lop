@@ -1,5 +1,5 @@
 export class TileFetcher {
-  constructor(private userAgent = 'green-route/1.0') {}
+  constructor(private readonly userAgent = 'green-route/1.0') {}
 
   async fetchTile(z: string, x: string, y: string): Promise<Buffer> {
     const osmUrl = `https://tile.openstreetmap.org/${z}/${x}/${y}.png`;

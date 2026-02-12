@@ -19,9 +19,9 @@ const EMPTY_ROUTE = {
 
 
 class App extends React.Component<{}, { route: any }> {
-  private serverUrl: string;
-  private tileUrl: string;
-  private routeUrl: string;
+  private readonly serverUrl: string;
+  private readonly tileUrl: string;
+  private readonly routeUrl: string;
 
   constructor(props: {}) {
     super(props);
