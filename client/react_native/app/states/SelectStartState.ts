@@ -13,12 +13,11 @@ export default class SelectStartState extends PositionSelectionState {
 
   constructor(parentApp: App){
     super(parentApp);
-    //temporaneo
-    this.currentSelection = { latitude: 45.4642, longitude: 9.1900 };
   }
 
   protected goToNextPanel(){
-      this.parentApp.setPanelState(new SelectDestinationState(this.parentApp, this.currentSelection as GeoPoint));
+    this.parentApp.setState({ pin: this.currentSelection });
+    this.parentApp.setPanelState(new SelectDestinationState(this.parentApp, this.currentSelection as GeoPoint));
   }
 
   public get panelContents(): React.ReactNode[] {

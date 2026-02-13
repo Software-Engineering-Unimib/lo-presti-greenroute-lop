@@ -7,6 +7,7 @@ import {
     View,
     Text,
 } from "react-native";
+import SelectStartState from "./SelectStartState.ts";
 
 
 export default class SelectDestinationState extends PositionSelectionState {
@@ -15,11 +16,10 @@ export default class SelectDestinationState extends PositionSelectionState {
   constructor(parentApp: App, start: GeoPoint){
     super(parentApp);
     this.start = start;
-    //temporaneo
-    this.currentSelection = { latitude: 45.8566, longitude: 9.3977 };
   }
 
   protected goToNextPanel(){
+    this.parentApp.setState({ pin: null });
     this.parentApp.setPanelState(new RoutesListState(this.parentApp, this.start, this.currentSelection as GeoPoint));
   }
 
@@ -43,6 +43,17 @@ export default class SelectDestinationState extends PositionSelectionState {
               key: 'gps-button', 
               title: 'Da GPS', 
               onPress: this.handleGetGPSLocation
+            }
+          ),
+          React.createElement(
+            Button,
+            { 
+              key: 'return-button', 
+              title: 'Cambia partenza', 
+              onPress: () => {
+                this.parentApp.setState({ pin: null });
+                this.parentApp.setPanelState(new SelectStartState(this.parentApp));
+              }
             }
           )
         ]

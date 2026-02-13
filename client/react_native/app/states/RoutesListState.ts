@@ -1,15 +1,24 @@
 import App from "../App.ts"
 import PanelState from "./PanelState.ts"
 import * as React from "react";
-import { Text } from "react-native";
+import {
+    View,
+    Button,
+    Text
+} from "react-native";
 import { SERVER_URL, EMPTY_ROUTE } from "../constants.ts";
+import SelectDestinationState from "./SelectDestinationState.ts";
 
 
 export default class RoutesListState extends PanelState {
   private readonly routeUrl: string;
+  private readonly start: GeoPoint;
+  private readonly end: GeoPoint;
   
   constructor(parentApp: App, start: GeoPoint, end: GeoPoint){
     super(parentApp);
+    this.start = start;
+    this.end = end;
     this.routeUrl = `${SERVER_URL}/routes/`;
     this.fetchRoute(start, end);
   }
@@ -43,7 +52,27 @@ export default class RoutesListState extends PanelState {
 
   public get panelContents(): React.ReactNode[] {
     return [
-      React.createElement(Text, {}, "ipsum lorem")
+        React.createElement(
+            View,
+            { 
+                key: 'container', 
+                style: { backgroundColor: 'white', alignItems: 'center' } 
+            },
+            [
+                React.createElement(Text, {}, "ipsum lorem"),
+                React.createElement(
+                    Button,
+                    { 
+                        key: 'return-button', 
+                        title: 'Cambia destinazione', 
+                        onPress: () => {
+                        this.parentApp.setState({ pin: this.start, route: EMPTY_ROUTE });
+                        this.parentApp.setPanelState(new SelectDestinationState(this.parentApp, this.start));
+                        }
+                    }
+                )
+            ]
+        )
     ];
   }
 }

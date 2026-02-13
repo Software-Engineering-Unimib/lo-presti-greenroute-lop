@@ -13,15 +13,12 @@ import {
   BackgroundLayer,
   ShapeSource,
   LineLayer,
+  CircleLayer
 } from "@maplibre/maplibre-react-native";
 import { SERVER_URL, EMPTY_ROUTE } from "./constants.ts";
 
 
-
-
-
-
-class App extends React.Component<{}, { route: any, panelState: PanelState }> {
+class App extends React.Component<{}, { route: any, panelState: PanelState, pin: GeoPoint | null }> {
   private readonly tileUrl: string;
 
   constructor(props: {}) {
@@ -30,7 +27,8 @@ class App extends React.Component<{}, { route: any, panelState: PanelState }> {
 
     this.state = {
       route: EMPTY_ROUTE,
-      panelState: new SelectStartState(this)
+      panelState: new SelectStartState(this),
+      pin: null
     };
   }
 
@@ -44,6 +42,7 @@ class App extends React.Component<{}, { route: any, panelState: PanelState }> {
   };
 
   public render(): React.ReactNode {
+    const isPinDefined: Boolean = this.state.pin !== undefined && this.state.pin !== null;
 
     return React.createElement(View, { style: StyleSheet.absoluteFill },
       React.createElement(MapView, {
@@ -88,10 +87,33 @@ class App extends React.Component<{}, { route: any, panelState: PanelState }> {
               lineOpacity: 0.8,
             }
           })
+        ),
+
+        React.createElement(ShapeSource, {
+          key: "pin-source",
+          id: "pin-source",
+          shape: {
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: isPinDefined ? [this.state.pin!.longitude, this.state.pin!.latitude] : [0, 0]
+            }
+          }
+        },
+          React.createElement(CircleLayer, {
+            id: "pin-layer",
+            style: {
+              circleRadius: 8,
+              circleColor: "red",
+              circleStrokeWidth: 2,
+              circleStrokeColor: "white",
+              visibility: isPinDefined ? "visible" : "none"
+            }
+          })
         )
       ),
 
-      React.createElement(View, { style: { position: "absolute", bottom: 50, left: 20, right: 20 } },
+      React.createElement(View, { id: "panel", style: { position: "absolute", bottom: 50, left: 20, right: 20 } },
         ...this.state.panelState.panelContents
       )
     );
