@@ -4,7 +4,10 @@ import http from 'node:http';
 import { EventEmitter } from 'node:events';
 
 
-jest.mock('node:http');
+jest.mock('node:http', () => ({
+  ...jest.requireActual('node:http'),
+  request: jest.fn(),
+}));
 
 const mockGraphHopperResponse = {
   paths: [
