@@ -18,7 +18,7 @@ import {
 import { SERVER_URL, EMPTY_ROUTE } from "./constants.ts";
 
 
-class App extends React.Component<{}, { route: any, panelState: PanelState, pin: GeoPoint | null }> {
+class App extends React.Component<{}, { route: any, panelState: PanelState, pin: GeoPoint | null, arePathsFetched: Boolean }> {
   private readonly tileUrl: string;
 
   constructor(props: {}) {
@@ -28,7 +28,8 @@ class App extends React.Component<{}, { route: any, panelState: PanelState, pin:
     this.state = {
       route: EMPTY_ROUTE,
       panelState: new SelectStartState(this),
-      pin: null
+      pin: null,
+      arePathsFetched: false
     };
   }
 
@@ -54,8 +55,10 @@ class App extends React.Component<{}, { route: any, panelState: PanelState, pin:
       },
         React.createElement(Camera, {
           key: "camera",
-          zoomLevel: 13,
-          centerCoordinate: [9.1900, 45.4642]
+          defaultSettings: {
+            zoomLevel: 13,
+            centerCoordinate: [9.1900, 45.4642]
+          }
         }),
 
         React.createElement(BackgroundLayer, {
@@ -65,13 +68,13 @@ class App extends React.Component<{}, { route: any, panelState: PanelState, pin:
         }),
 
         React.createElement(RasterSource, {
-          key: "osm-source",
-          id: "osm-proxy",
+          key: "tile-source",
+          id: "tile-service-fetcher",
           tileUrlTemplates: [this.tileUrl],
           tileSize: 256
         },
 
-        React.createElement(RasterLayer, { id: "osm-layer", sourceID: "osm-proxy" })),
+        React.createElement(RasterLayer, { id: "tile-layer", sourceID: "tile-service-fetcher" })),
 
         React.createElement(ShapeSource, {
             key: "route-source",

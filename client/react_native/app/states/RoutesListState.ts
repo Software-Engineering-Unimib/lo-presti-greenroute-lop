@@ -8,18 +8,20 @@ import {
 } from "react-native";
 import { SERVER_URL, EMPTY_ROUTE } from "../constants.ts";
 import SelectDestinationState from "./SelectDestinationState.ts";
+import RouteState from "./RouteState.ts";
 
 
 export default class RoutesListState extends PanelState {
   private readonly routeUrl: string;
   private readonly start: GeoPoint;
-  private readonly end: GeoPoint;
+  private pathsList: any;
   
   constructor(parentApp: App, start: GeoPoint, end: GeoPoint){
     super(parentApp);
     this.start = start;
-    this.end = end;
     this.routeUrl = `${SERVER_URL}/routes/`;
+    this.pathsList = [];
+    this.parentApp.setState({ arePathsFetched: false });
     this.fetchRoute(start, end);
   }
 
@@ -42,15 +44,23 @@ export default class RoutesListState extends PanelState {
         throw new Error(`Server responded with ${response.status}`);
       }
 
-      const geojsons = await response.json();
-      this.parentApp.setState({ route: geojsons[0] });
+      this.pathsList = await response.json();
+      this.parentApp.setState({ arePathsFetched: true });
     } catch (err: any) {
       console.error('Failed to fetch route:', err.message || err);
-      this.parentApp.setState({ route: EMPTY_ROUTE });
     }
   };
 
   public get panelContents(): React.ReactNode[] {
+    const elements = this.pathsList.map((path: any, index: number) =>
+        React.createElement(Button, {
+            key: `path-${index}`,
+            title: `Tempo: ${path.time}, Distanza: ${path.distance}`,
+            onPress: () => {
+                this.parentApp.setPanelState(new RouteState(this.parentApp, this.pathsList[index], this));
+            }
+        }));
+
     return [
         React.createElement(
             View,
@@ -59,15 +69,17 @@ export default class RoutesListState extends PanelState {
                 style: { backgroundColor: 'white', alignItems: 'center' } 
             },
             [
-                React.createElement(Text, {}, "ipsum lorem"),
+                React.createElement(Text, { key: 'label-1'}, "Scegli un percorso"),
+                ...elements,
+                React.createElement(Text, { key: 'label-2'}, "Oppure..."),
                 React.createElement(
                     Button,
                     { 
                         key: 'return-button', 
-                        title: 'Cambia destinazione', 
+                        title: 'Cambia destinazione',
                         onPress: () => {
-                        this.parentApp.setState({ pin: this.start, route: EMPTY_ROUTE });
-                        this.parentApp.setPanelState(new SelectDestinationState(this.parentApp, this.start));
+                          this.parentApp.setState({ pin: this.start, arePathsFetched: false });
+                          this.parentApp.setPanelState(new SelectDestinationState(this.parentApp, this.start));
                         }
                     }
                 )

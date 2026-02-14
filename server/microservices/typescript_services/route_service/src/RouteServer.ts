@@ -9,6 +9,22 @@ export class RouteServer extends ServiceServer {
     this.app.get('/', this.handleRouteRequest.bind(this));
   }
 
+  private formatTime(milliseconds: number): string {
+    const totalSeconds = Math.round(milliseconds / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = Math.round(totalSeconds % 60);
+
+    const parts = [];
+    if (hours > 0)
+      parts.push(`${hours}h`);
+    if (minutes > 0)
+      parts.push(`${minutes}m`);
+    parts.push(`${seconds}s`);
+
+    return parts.join(' ');
+  }
+
   private async handleRouteRequest(req: Request, res: Response): Promise<void> {
     try {
       const { startLatitude, startLongitude, endLatitude, endLongitude } = req.query;
@@ -21,6 +37,9 @@ export class RouteServer extends ServiceServer {
         queryParams.append('point', `${startLatitude},${startLongitude}`);
         queryParams.append('point', `${endLatitude},${endLongitude}`);
         queryParams.append('profile', 'car');
+        queryParams.append('algorithm', 'alternative_route');
+        queryParams.append('alternative_route.max_weight_factor', '2.0');
+        queryParams.append('alternative_route.max_share_factor', '0.8');
         queryParams.append('alternative_route.max_paths', '5');
         queryParams.append('locale', 'it');
         queryParams.append('points_encoded', 'false');
@@ -53,23 +72,29 @@ export class RouteServer extends ServiceServer {
         });
 
         console.log('GraphHopper response:', JSON.stringify(data, null, 2));
-        const geojsonList = data.paths.map((path: any) => (
-          {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                geometry: path.points,
-                properties: {
-                  distance: path.distance,
-                  time: path.time,
+        
+        const pathsList = data.paths.map((path: any) => ({
+            distance: `${(path.distance / 1000).toFixed(3)}km`,
+            time: this.formatTime(path.time),
+            instructions: path.instructions,
+
+            geojson: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  geometry: path.points,
+                  properties: {
+                    distance: path.distance,
+                    time: path.time,
+                  },
                 },
-              },
-            ],
+              ],
+            }
           }
         ));
 
-        res.json(geojsonList);
+        res.json(pathsList);
       }
     } catch (err: unknown) {
       const message = (err as any).message || '""';
