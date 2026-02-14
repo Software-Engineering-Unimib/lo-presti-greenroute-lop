@@ -21,6 +21,7 @@ import { SERVER_URL, EMPTY_ROUTE } from "./constants.ts";
 class App extends React.Component<{}, { route: any, panelState: PanelState, pin: GeoPoint | null, arePathsFetched: Boolean }> {
   private readonly tileUrl: string;
 
+  
   constructor(props: {}) {
     super(props);
     this.tileUrl = `${SERVER_URL}/tiles/{z}/{x}/{y}.png`;
@@ -38,9 +39,6 @@ class App extends React.Component<{}, { route: any, panelState: PanelState, pin:
     this.setState({ panelState: panelState });
   }
 
-  private clearRoute(): void {
-    this.setState({ route: EMPTY_ROUTE });
-  };
 
   public render(): React.ReactNode {
     const isPinDefined: Boolean = this.state.pin !== undefined && this.state.pin !== null;
