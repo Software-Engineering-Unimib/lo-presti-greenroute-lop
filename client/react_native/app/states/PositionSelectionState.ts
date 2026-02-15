@@ -71,7 +71,7 @@ export default abstract class PositionSelectionState extends PanelState {
 
   protected handleGetGPSLocation =  async (): Promise<void> => {
     if (Platform.OS === 'android') {
-      const result = await PermissionsAndroid.request(
+      await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: 'Permesso posizione',
