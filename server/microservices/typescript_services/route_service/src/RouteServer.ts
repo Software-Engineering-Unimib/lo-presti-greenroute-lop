@@ -27,15 +27,28 @@ export class RouteServer extends ServiceServer {
 
   private async handleRouteRequest(req: Request, res: Response): Promise<void> {
     try {
-      const { startLatitude, startLongitude, endLatitude, endLongitude } = req.query;
+      const {
+        startLatitude,
+        startLongitude,
+        endLatitude,
+        endLongitude
+      } = req.query;
+
+      const startLatitudeNumber = Number(startLatitude);
+      const startLongitudeNumber = Number(startLongitude);
+      const endLatitudeNumber = Number(endLatitude);
+      const endLongitudeNumber = Number(endLongitude);
 
       if (!startLatitude || !startLongitude || !endLatitude || !endLongitude) {
         res.status(400).json({ error: 'Missing coordinates' });
       }
+      else if ([startLatitudeNumber, startLongitudeNumber, endLatitudeNumber, endLongitudeNumber].some(Number.isNaN)) {
+        res.status(400).json({ error: 'Invalid coordinates' });
+      }
       else {
         const queryParams = new URLSearchParams();
-        queryParams.append('point', `${startLatitude},${startLongitude}`);
-        queryParams.append('point', `${endLatitude},${endLongitude}`);
+        queryParams.append('point', `${startLatitudeNumber},${startLongitudeNumber}`);
+        queryParams.append('point', `${endLatitudeNumber},${endLongitudeNumber}`);
         queryParams.append('profile', 'car');
         queryParams.append('algorithm', 'alternative_route');
         queryParams.append('alternative_route.max_weight_factor', '2.0');

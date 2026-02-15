@@ -49,6 +49,28 @@ describe('RouteServer', () => {
   });
 
   it('dovrebbe restituire 400 se mancano le coordinate', async () => {
+    let res = await request(server['app']).get('/');
+    expect(res.status).toBe(400);
+    res = await request(server['app']).get('/?startLatitude=1');
+    expect(res.status).toBe(400);
+    res = await request(server['app']).get('/?startLatitude=1&startLongitude=2');
+    expect(res.status).toBe(400);
+    res = await request(server['app']).get('/?startLatitude=1&startLongitude=2&endLatitude=3');
+    expect(res.status).toBe(400);
+  });
+
+  it('dovrebbe restituire 400 se le coordinate non sono numeri', async () => {
+    let res = await request(server['app']).get('/?startLatitude=a&startLongitude=2&endLatitude=3&endLongitude=4');
+    expect(res.status).toBe(400);
+    res = await request(server['app']).get('/?startLatitude=1&startLongitude=b&endLatitude=3&endLongitude=4');
+    expect(res.status).toBe(400);
+    res = await request(server['app']).get('/?startLatitude=1&startLongitude=2&endLatitude=c&endLongitude=4');
+    expect(res.status).toBe(400);
+    res = await request(server['app']).get('/?startLatitude=1&startLongitude=2&endLatitude=3&endLongitude=d');
+    expect(res.status).toBe(400);
+  });
+
+  it('dovrebbe restituire 400 se mancano le coordinate', async () => {
     const res = await request(server['app']).get('/');
     expect(res.status).toBe(400);
   });
