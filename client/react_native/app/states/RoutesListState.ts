@@ -14,23 +14,24 @@ import RouteState from "./RouteState.ts";
 export default class RoutesListState extends PanelState {
   private readonly routeUrl: string;
   private readonly start: GeoPoint;
+  private readonly end: GeoPoint;
   private pathsList: any;
   
   constructor(parentApp: App, start: GeoPoint, end: GeoPoint){
     super(parentApp);
     this.start = start;
+    this.end = end;
     this.routeUrl = `${SERVER_URL}/routes/`;
     this.pathsList = [];
     this.parentApp.setState({ arePathsFetched: false });
-    this.fetchRoute(start, end);
   }
 
-  private fetchRoute = async (start: GeoPoint, end: GeoPoint) => {
+  public fetchRoutes = async () => {
     const requestUrl = new URL(this.routeUrl);
-    requestUrl.searchParams.append('startLatitude', start.latitude.toString());
-    requestUrl.searchParams.append('startLongitude', start.longitude.toString());
-    requestUrl.searchParams.append('endLatitude', end.latitude.toString());
-    requestUrl.searchParams.append('endLongitude', end.longitude.toString());
+    requestUrl.searchParams.append('startLatitude', this.start.latitude.toString());
+    requestUrl.searchParams.append('startLongitude', this.start.longitude.toString());
+    requestUrl.searchParams.append('endLatitude', this.end.latitude.toString());
+    requestUrl.searchParams.append('endLongitude', this.end.longitude.toString());
 
     try {
       const response = await fetch(requestUrl.toString(), {

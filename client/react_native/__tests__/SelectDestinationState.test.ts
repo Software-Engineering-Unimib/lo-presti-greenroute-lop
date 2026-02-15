@@ -5,15 +5,20 @@ import RoutesListState from "../app/states/RoutesListState.ts";
 
 jest.mock("../app/constants", () => ({SERVER_URL: "http://mockhost:3000"}));
 jest.mock('../app/states/SelectStartState.ts');
-jest.mock('../app/states/RoutesListState.ts');
-
+(global as any).fetch = jest.fn();
 
 describe('SelectDestinationState', () => {
+  let mockRoutes: any;
   let mockApp: any;
   let state: SelectDestinationState;
   const startPoint = { latitude: 45.4642, longitude: 9.1900 };
 
   beforeEach(() => {
+    mockRoutes = [{ time: '10 min', distance: '2 km', geojson: {} }];
+    ((global as any).fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => mockRoutes
+    });
     mockApp = {
       setState: jest.fn(),
       setPanelState: jest.fn()

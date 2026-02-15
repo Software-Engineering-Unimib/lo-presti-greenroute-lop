@@ -30,10 +30,11 @@ describe('RoutesListState', () => {
     jest.clearAllMocks();
   });
 
-  it('dovrebbe recuperare i percorsi all\'inizializzazione e aggiornare lo stato dell\'app', async () => {
+  it('fetch dovrebbe recuperare i percorsi e aggiornare lo stato dell\'app', async () => {
     const state = new RoutesListState(mockApp, start, end);
-
-    await new Promise(resolve => setTimeout(() => resolve(null), 0));
+    expect(mockApp.setState).toHaveBeenCalledWith({ arePathsFetched: false });
+    
+    await state.fetchRoutes();
 
     expect((global as any).fetch).toHaveBeenCalled();
     expect(mockApp.setState).toHaveBeenCalledWith({ arePathsFetched: true });
@@ -42,7 +43,7 @@ describe('RoutesListState', () => {
 
   it('la selezione di un percorso dovrebbe passare a RouteState correttamente', async () => {
     const state = new RoutesListState(mockApp, start, end);
-    await new Promise(resolve => setTimeout(() => resolve(null), 0));
+    await state.fetchRoutes();
 
     const contents = state.panelContents;
     const view = contents[0] as any;

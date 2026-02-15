@@ -20,7 +20,9 @@ export default class SelectDestinationState extends PositionSelectionState {
 
   protected goToNextPanel(){
     this.parentApp.setState({ pin: null });
-    this.parentApp.setPanelState(new RoutesListState(this.parentApp, this.start, this.currentSelection as GeoPoint));
+    const nextState = new RoutesListState(this.parentApp, this.start, this.currentSelection as GeoPoint);
+    this.parentApp.setPanelState(nextState);
+    nextState.fetchRoutes();
   }
 
   public get panelContents(): React.ReactNode[] {
