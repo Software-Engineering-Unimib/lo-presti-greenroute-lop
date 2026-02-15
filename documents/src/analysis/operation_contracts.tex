@@ -19,7 +19,11 @@
 	{La persona visualizza la sezione di mappa richiesta}
 
 \operationcontract
-	{getRoutesList(routeSettings, count)}
+	{getRoutesList(routeSettings, page)}
 	{Caso d'uso "Visualizza i percorsi possibili"}
 	{La persona ha inserito tutte le opzioni necessarie a calcolare i percorsi}
-	{La persona visualizza una lista di percorsi che soddisfa le sue richieste}
+	{
+		La persona visualizza una lista di percorsi che soddisfa le sue richieste.
+		La lista mostra una sezione (page) dei risultati, come se fosse parte di un elenco virtualmente infinito.
+		Ogni sezione contiene un numero fisso di percorsi, costante per tutte le sezioni.
+	}
