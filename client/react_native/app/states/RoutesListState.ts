@@ -6,7 +6,7 @@ import {
     Button,
     Text
 } from "react-native";
-import { SERVER_URL, EMPTY_ROUTE } from "../constants.ts";
+import { SERVER_URL } from "../constants.ts";
 import SelectDestinationState from "./SelectDestinationState.ts";
 import RouteState from "./RouteState.ts";
 
