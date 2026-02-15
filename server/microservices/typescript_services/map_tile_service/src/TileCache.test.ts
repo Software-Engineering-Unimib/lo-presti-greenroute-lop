@@ -18,7 +18,7 @@ describe('TileCache', () => {
     mockClient = {
       connect: jest.fn().mockResolvedValue(undefined),
       quit: jest.fn().mockResolvedValue(undefined),
-      disconnect: jest.fn().mockResolvedValue(undefined),
+      destroy: jest.fn().mockResolvedValue(undefined),
       get: jest.fn(),
       set: jest.fn(),
       on: jest.fn(),
@@ -44,11 +44,11 @@ describe('TileCache', () => {
       expect(mockClient.quit).toHaveBeenCalled();
     });
 
-    it('dovrebbe chiamare disconnect se quit fallisce', async () => {
+    it('dovrebbe chiamare destroy se quit fallisce', async () => {
       mockClient.quit.mockRejectedValue(new Error('Quit failed'));
       await tileCache.disconnect();
       expect(mockClient.quit).toHaveBeenCalled();
-      expect(mockClient.disconnect).toHaveBeenCalled();
+      expect(mockClient.destroy).toHaveBeenCalled();
     });
   });
 

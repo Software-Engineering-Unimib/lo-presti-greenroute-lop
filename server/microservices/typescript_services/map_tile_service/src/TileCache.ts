@@ -28,7 +28,7 @@ export class TileCache {
     } catch (err) {
        console.log(`Exception while disconnecting from redis: ${err}`);
       // se quit fallisce, prova disconnect
-      await this.client.disconnect();
+      await this.client.destroy();
     }
   }
 
