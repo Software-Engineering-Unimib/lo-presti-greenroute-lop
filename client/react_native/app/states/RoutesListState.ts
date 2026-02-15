@@ -26,7 +26,7 @@ export default class RoutesListState extends PanelState {
     this.parentApp.setState({ arePathsFetched: false });
   }
 
-  public fetchRoutes = async () => {
+  public async fetchRoutes() {
     const requestUrl = new URL(this.routeUrl);
     requestUrl.searchParams.append('startLatitude', this.start.latitude.toString());
     requestUrl.searchParams.append('startLongitude', this.start.longitude.toString());
