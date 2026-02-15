@@ -31,7 +31,7 @@ export default abstract class PositionSelectionState extends PanelState {
     this.setSelectionAndContinue(latitude, longitude);
   }
 
-  protected getCurrentLocation =  async (): Promise<void> => {
+  protected async getCurrentLocation(): Promise<void> {
     try {
       const position: GeolocationResponse = await new Promise((resolve, reject) => {
         Geolocation.getCurrentPosition(resolve, reject, {
@@ -69,18 +69,23 @@ export default abstract class PositionSelectionState extends PanelState {
     }
   }
 
-  protected handleGetGPSLocation =  async (): Promise<void> => {
+  protected handleGetGPSLocation(): void {
     if (Platform.OS === 'android') {
-      await PermissionsAndroid.request(
+      PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         {
           title: 'Permesso posizione',
           message: 'Questa app ha bisogno del permesso di accesso alla posizione.',
           buttonPositive: 'OK'
+        })
+      .then((result) => {
+        if (result === PermissionsAndroid.RESULTS.GRANTED) {
+          this.getCurrentLocation();
         }
-      );
-
-      await this.getCurrentLocation();
+      })
+      .catch((error) => {
+        console.error('Permission error:', error);
+      });
     } else {
       // TODO (per ios)
     }
