@@ -39,6 +39,9 @@ openssl x509 -outform der -in server/$CERTIFICATE_DIR/$CERTIFICATE_NAME -out cli
 
 (cd client/react_native/ && npm install)
 (cd server/microservices/typescript_services && npm install)
+
+mkdir -p server/microservices/graphhopper/data/
+curl -L $ROUTING_DATA_URL -o server/microservices/graphhopper/data/map_data.pbf
 ```
 
 Dopo avere impostato l'ambiente, il server può essere eseguito con i l seguente comando:
