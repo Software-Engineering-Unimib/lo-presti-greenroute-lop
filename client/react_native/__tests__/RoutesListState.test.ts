@@ -3,6 +3,7 @@ import RouteState from "../app/states/RouteState.ts";
 import SelectDestinationState from "../app/states/SelectDestinationState.ts";
 
 
+jest.mock("../app/constants", () => ({SERVER_URL: "http://mockhost:3000"}));
 (global as any).fetch = jest.fn();
 
 

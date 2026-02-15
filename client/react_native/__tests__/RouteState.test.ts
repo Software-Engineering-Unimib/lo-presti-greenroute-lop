@@ -2,6 +2,7 @@ import RouteState from "../app/states/RouteState.ts";
 import { EMPTY_ROUTE } from "../app/constants.ts";
 
 
+jest.mock("../app/constants", () => ({SERVER_URL: "http://mockhost:3000"}));
 describe('RouteState', () => {
   let mockApp: any;
   let mockLastPanel: any;

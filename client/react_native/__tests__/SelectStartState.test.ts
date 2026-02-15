@@ -2,6 +2,7 @@ import SelectStartState from "../app/states/SelectStartState.ts";
 import SelectDestinationState from "../app/states/SelectDestinationState.ts";
 
 
+jest.mock("../app/constants", () => ({SERVER_URL: "http://mockhost:3000"}));
 describe('SelectStartState', () => {
   let mockApp: any;
   let state: SelectStartState;

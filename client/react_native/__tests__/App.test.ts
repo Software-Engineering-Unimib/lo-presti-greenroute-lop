@@ -4,6 +4,9 @@ import App from "../app/App.ts";
 import SelectStartState from '../app/states/SelectStartState.ts';
 
 
+jest.mock("../app/constants", () => ({
+  SERVER_URL: "http://mockhost:3000"
+}));
 jest.mock('@maplibre/maplibre-react-native', () => {
   // i mock non possono referenziare variabili out of scope, React va richiesto nella factory
   const React = require('react');

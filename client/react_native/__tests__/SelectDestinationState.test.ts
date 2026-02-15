@@ -3,6 +3,7 @@ import SelectStartState from "../app/states/SelectStartState.ts";
 import RoutesListState from "../app/states/RoutesListState.ts";
 
 
+jest.mock("../app/constants", () => ({SERVER_URL: "http://mockhost:3000"}));
 jest.mock('../app/states/SelectStartState.ts');
 jest.mock('../app/states/RoutesListState.ts');
 

@@ -21,6 +21,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Set up di Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.13.0
+      - name: Install client dependencies and run tests
+        run: |
+          cd client/react_native
+          npm install
+          # continua anche se i test falliscono per caricare risultati parziali
+          npm run test -- --coverage || true
+      - name: Install server dependencies and run tests
+        run: |
+          cd server/microservices/typescript_services
+          npm install
+          # continua anche se i test falliscono per caricare risultati parziali
+          npm run test -- --coverage || true
       - name: SonarQube scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:

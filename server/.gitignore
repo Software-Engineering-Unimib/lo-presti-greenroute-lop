@@ -1,4 +1,7 @@
 /microservices/typescript_services/node_modules/
 /microservices/typescript_services/package-lock.json
+/microservices/typescript_services/coverage
+
 /microservices/*/data/
+
 .env
