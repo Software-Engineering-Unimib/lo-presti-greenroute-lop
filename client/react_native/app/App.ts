@@ -18,7 +18,7 @@ import {
 import { SERVER_URL, EMPTY_ROUTE } from "./constants.ts";
 
 
-class App extends React.Component<{}, { route: any, panelState: PanelState, pin: GeoPoint | null, arePathsFetched: Boolean }> {
+class App extends React.Component<{}, { route: any, panelState: PanelState, pin: GeoPoint | null, arePathsFetched: boolean }> {
   private readonly tileUrl: string;
 
   
@@ -41,7 +41,7 @@ class App extends React.Component<{}, { route: any, panelState: PanelState, pin:
 
 
   public render(): React.ReactNode {
-    const isPinDefined: Boolean = this.state.pin !== undefined && this.state.pin !== null;
+    const isPinDefined: boolean = this.state.pin !== undefined && this.state.pin !== null;
 
     return React.createElement(View, { style: StyleSheet.absoluteFill },
       React.createElement(MapView, {
