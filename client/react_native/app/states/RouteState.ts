@@ -12,8 +12,8 @@ import RoutesListState from "./RoutesListState.ts";
 
 
 export default class RouteState extends PanelState {
-  private route: any;
-  private lastPanel: RoutesListState;
+  private readonly route: any;
+  private readonly lastPanel: RoutesListState;
 
   constructor(parentApp: App, route: any, lastPanel: RoutesListState){
     super(parentApp);
