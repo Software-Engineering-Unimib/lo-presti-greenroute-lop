@@ -46,6 +46,7 @@ class App extends React.Component<{}, { route: any, panelState: PanelState, pin:
     return React.createElement(View, { style: StyleSheet.absoluteFill },
       React.createElement(MapView, {
         style: StyleSheet.absoluteFill,
+        testID: "mapView",
         onPress: (event) => {
           const [longitude, latitude] = event.geometry.coordinates;
           this.state.panelState.onMapPressed(latitude, longitude);

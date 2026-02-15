@@ -65,7 +65,7 @@ export default class RoutesListState extends PanelState {
         React.createElement(
             View,
             { 
-                key: 'container', 
+                key: 'container',
                 style: { backgroundColor: 'white', alignItems: 'center' } 
             },
             [
