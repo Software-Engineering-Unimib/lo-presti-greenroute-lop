@@ -50,12 +50,12 @@ Dopo avere impostato l'ambiente, il server può essere eseguito con i l seguente
 (cd server/ && bash build_and_run.sh)
 ```
 
-Per fare build del client, eseguire:
+Per fare build di debug del client, eseguire:
 
 ```bash
-(cd client/react_native/android/ && ./gradlew assembleDebug)
+(cd client/react_native/ && react-native run-android && react-native start)
 ```
-L'apk si troverà in **client/react_native/app/build/outputs/apk/release/app-release.apk**
+**Non chiudere Metro dopo l’avvio:** il bundler è necessario per caricare e visualizzare correttamente l’interfaccia React Native in modalità debug.
 
 ATTENZIONE: La comunicazione avviene tramite HTTPS con un certificato SSL autofirmato, al quale Android applica restrizioni di sicurezza intenzionali. Se la build del client utilizza un certificato diverso da quello usato dal server, la connessione tra client e server non potrà essere stabilita.
 
