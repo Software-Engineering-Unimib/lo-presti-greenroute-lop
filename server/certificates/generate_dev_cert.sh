@@ -8,7 +8,7 @@ if [ ! -f $CERTIFICATE_KEY_NAME ]; then
 fi
 
 if [ ! -f $CERTIFICATE_NAME ]; then
-    echo "SSL certificate not found, generating a self-signed development certificate"
+    echo "SSL certificate not found, generating a self-signed development certificate for the IP $API_URL"
 
     #crea il certificato
     openssl req -x509 -new -nodes \
@@ -17,6 +17,6 @@ if [ ! -f $CERTIFICATE_NAME ]; then
         -days 3650 \
         -out $CERTIFICATE_NAME \
         -subj "/C=IT/ST=Lombardia/L=Milano/O=Unimib/OU=Development/CN=Development CA/emailAddress=f.lopresti5@campus.unimib.it" \
-        -addext "subjectAltName = IP:10.0.2.2"
+        -addext "subjectAltName = IP:$API_URL"
 fi
 
