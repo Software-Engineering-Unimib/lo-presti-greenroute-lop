@@ -53,13 +53,34 @@ Dopo avere impostato l'ambiente, il server può essere eseguito con i l seguente
 Per fare build di debug del client, eseguire:
 
 ```bash
-(cd client/react_native/ && react-native run-android && react-native start)
+(
+    cd client/react_native/ &&
+    npx react-native run-android &&
+    npx react-native start
+)
 ```
 **Non chiudere Metro dopo l’avvio:** il bundler è necessario per caricare e visualizzare correttamente l’interfaccia React Native in modalità debug.
 
 ATTENZIONE: La comunicazione avviene tramite HTTPS con un certificato SSL autofirmato, al quale Android applica restrizioni di sicurezza intenzionali. Se la build del client utilizza un certificato diverso da quello usato dal server, la connessione tra client e server non potrà essere stabilita.
 
-## Impostazione dell'ambiente di sviluppo
+Se si modifica .env.development, è necessario cancellare il certificato precedente e rieseguire i comandi di impostazione del ambiente.
+
+```bash
+rm -f server/certificates/development_CA.pem server/certificates/development_CA.key 
+```
+
+Il cient va poi avviato nel seguente modo
+```bash
+(
+    cd client/react_native/android/ &&
+    ./gradlew clean &&
+    cd .. &&
+    npx react-native run-android &&
+    npx react-native start --reset-cache
+)
+```
+
+## Esecuzione test
 
 I test del client sono eseguiti nel seguente modo:
 ```bash
